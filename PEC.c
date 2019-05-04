@@ -29,7 +29,7 @@ int main() {
  i++;
 }
 i=0;
- int ciclos=rand()%100+1000;
+ int ciclos=rand()%100+L_poroso*10;
  printf("\n%i\n",ciclos );
  int posicion1=rand()%(L_poroso-1);
  int posicion2=rand()%(L_poroso-1);
