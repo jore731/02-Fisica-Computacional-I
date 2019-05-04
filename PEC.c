@@ -7,6 +7,7 @@
 
 int main() {
   srand(time(NULL));
+  FILE * output_txt = fopen("output.txt", "w");
 
  int L_poroso, ratio_porosidad, i,buffer1,buffer2;
  printf("Introduzca longitud del poroso:");
@@ -28,12 +29,12 @@ int main() {
  i++;
 }
 i=0;
- int ciclos=rand()%100+100;
- printf("%i\n",ciclos );
+ int ciclos=rand()%100+1000;
+ printf("\n%i\n",ciclos );
  int posicion1=rand()%(L_poroso-1);
  int posicion2=rand()%(L_poroso-1);
 while (i<ciclos){
-  printf("%i -> %i\n",posicion1,posicion2);
+  //printf("%i -> %i\n",posicion1,posicion2);
    posicion1=rand()%(L_poroso-1);
    posicion2=rand()%(L_poroso-1);
   while (posicion1==posicion2){
@@ -48,7 +49,32 @@ while (i<ciclos){
 }
 i=0;
 while (i<L_poroso){
-  printf("%i ",poroso[i]);
+  fprintf(output_txt,"%i\n",poroso[i]);
 i++;
 }
+// fprintf(output_txt,"\n");
+// fprintf(output_txt,"end");
+
+char * configGnuplot[] = {"",
+                                "set yrange [0:1]",
+                                "set key off",
+                                "set style data histogram",
+                                "set style fill solid border -1",
+                                "set auto x",
+                                "set style histogram cluster gap 1",
+                                "unset xtics",
+                                "unset ytics",
+                                "plot \"output.txt\" using 1"
+                               };
+char charbuff[100];
+sprintf(charbuff, "set title \"Representación del poroso con: L = %i // r=%i\"",L_poroso,ratio_porosidad);
+configGnuplot[1]=charbuff;
+    /*Se crea una archivo de tipo poen, es una tebería IPC que se usa, para
+     * ejecutar gnuplot y enviarle el archivo a graficar*/
+    FILE * ventanaGnuplot = popen ("gnuplot -persist", "w");
+    // Executing gnuplot commands one by one
+    for (i=0;i<10;i++){
+  fprintf(ventanaGnuplot, "%s \n", configGnuplot[i]);
+ }
+ fclose(output_txt);
 }
