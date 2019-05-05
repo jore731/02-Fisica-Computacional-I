@@ -9,11 +9,12 @@ int main() {
   srand(time(NULL));
   FILE * output_txt = fopen("output.txt", "w");
 
- int L_poroso, ratio_porosidad, i,buffer1,buffer2;
+ int L_poroso, i,buffer1,buffer2;
+ float ratio_porosidad;
  printf("Introduzca longitud del poroso:");
  scanf("%i", &L_poroso);
  printf("Introduzca el ratio de porosidad (0/1):");
- scanf("%i", &ratio_porosidad);
+ scanf("%f", &ratio_porosidad);
  int poroso[L_poroso];
  int ceros=((ratio_porosidad*L_poroso)/(ratio_porosidad+1));
  int unos=L_poroso-((ratio_porosidad*L_poroso)/(ratio_porosidad+1));
@@ -55,26 +56,27 @@ i++;
 // fprintf(output_txt,"\n");
 // fprintf(output_txt,"end");
 
-char * configGnuplot[] = {"",
+char * configGnuplot[] = {"","",
                                 "set yrange [0:1]",
-                                "set key off",
-                                "set style data histogram",
-                                "set style fill solid border -1",
-                                "set auto x",
-                                "set style histogram cluster gap 1",
+                                "unset key",
                                 "unset xtics",
                                 "unset ytics",
-                                "plot \"output.txt\" using 1"
+                                "plot \"output.txt\" with fillsteps fs solid 1 noborder"
                                };
-char charbuff[100];
-sprintf(charbuff, "set title \"Representación del poroso con: L = %i // r=%i\"",L_poroso,ratio_porosidad);
-configGnuplot[1]=charbuff;
+char charbuff[100],charbuff2[100];
+sprintf(charbuff, "set title \"Representación del poroso con: L = %i // r=%.2f\"",L_poroso,ratio_porosidad);
+configGnuplot[0]=charbuff;
+sprintf(charbuff2,"set xrange [0:%i]",L_poroso);
+configGnuplot[1]=charbuff2;
+
     /*Se crea una archivo de tipo poen, es una tebería IPC que se usa, para
      * ejecutar gnuplot y enviarle el archivo a graficar*/
     FILE * ventanaGnuplot = popen ("gnuplot -persist", "w");
     // Executing gnuplot commands one by one
-    for (i=0;i<10;i++){
+    for (i=0;i<7;i++){
   fprintf(ventanaGnuplot, "%s \n", configGnuplot[i]);
  }
+
  fclose(output_txt);
+ pclose(ventanaGnuplot);
 }
