@@ -50,12 +50,17 @@ void randomizar_array (int * array,int L_array){
   }
 }
 
-void print_array_1d (int *array, int columnas, int espacio){
+void print_array_1d (float *array, int columnas, int espacio, int printfloat){
   int i=0;
   while (i<columnas){
     if (espacio==0) {
-    printf("%i",array[i]);
-  }else {printf("%i |",array[i]);}
+      if (printfloat==0) {
+        printf("%i",array[i]);
+      }else {printf("%.4f",array[i]);}
+    }else {
+      if (printfloat==0) {printf("%i |",array[i]);}
+      else{printf("%.4f |",array[i]);}
+    }
     i++;
   }
 }
@@ -122,7 +127,7 @@ void crear_matriz_huecos (int * array,int * huecos,int filas,int columnas){
 }
 
 
-void crear_histograma (int * array,int * histograma,int filas, int columnas){
+void crear_histograma (int * array,float * histograma,int filas, int columnas){
   int i=0, j=0;
   inicializar_ceros_1d (histograma,columnas);
   while (i<filas){
@@ -132,6 +137,15 @@ void crear_histograma (int * array,int * histograma,int filas, int columnas){
     }
     j=0;
     i++;
+  }
+
+}
+
+void dividir_array (float * array,int columnas, int dividendo){
+  int j=0;
+  while (j<columnas) {
+    array[j]=array[j]/dividendo;
+    j++;
   }
 }
 int main() {
@@ -152,7 +166,7 @@ int main() {
   int ceros=((ratio_porosidad*L_poroso)/(ratio_porosidad+1));
   int unos=L_poroso-((ratio_porosidad*L_poroso)/(ratio_porosidad+1));
   int huecos[n_porosos][L_poroso/2];
-  int histograma[L_poroso/2];
+  float histograma[L_poroso/2];
   //creación del array sin aleatorizar
 
   crear_matriz_porosos (porosos,L_poroso,n_porosos,unos);
@@ -171,8 +185,23 @@ int main() {
   print_array_2d (huecos,L_poroso/2,n_porosos,1);
   printf("\n");
   printf("\n");
+  printf("Histograma:\n");
+  printf("Acumulado\n");
+  printf("----------------------------------------------------------------------\n");
   crear_histograma(huecos,histograma,n_porosos,L_poroso/2);
-  print_array_1d (histograma,L_poroso/2,1);
+  print_array_1d (histograma,L_poroso/2,1,1);
+  printf("\n");
+  printf("Promedio\n");
+  printf("----------------------------------------------------------------------\n");
+  dividir_array (histograma,L_poroso/2,n_porosos);
+  print_array_1d (histograma,L_poroso/2,1,1);
+  printf("\n");
+  printf("\n");
+  printf("Histograma normalizado (en porcentaje):\n");
+  printf("----------------------------------------------------------------------\n");
+  dividir_array (histograma,L_poroso/2,L_poroso*n_porosos/100);
+  print_array_1d (histograma,L_poroso/2,1,1);
+
 }
 //
 // i=0;
