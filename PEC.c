@@ -103,7 +103,7 @@ int i=0,h_act=0;
     }
     else {
       if (h_act!=0) {
-          huecos[h_act-1]++;
+          huecos[h_act]++;
           // printf("%i, %i\n",i, &array[i] );
       }
       h_act=0;
@@ -112,7 +112,7 @@ int i=0,h_act=0;
     i++;
   }
   if (h_act!=0) {
-    huecos[h_act-1]++;
+    huecos[h_act]++;
   }
 }
 
@@ -148,10 +148,34 @@ void dividir_array (float * array,int columnas, int dividendo){
     j++;
   }
 }
+
+void escala_histograma (float *array,int columnas,float *max_x, float *max_y){
+  int i=0;
+  *max_x=0;
+  *max_y=0;
+  while (i<columnas/2){
+    if (array[i]>*max_y) {
+      *max_y=array[i];
+    }
+    if (array[i]>0) {
+      *max_x=i;
+    }
+  i++;
+  }
+}
+
+void print_array_1d_to_file (char * nombre,float * array,int columnas){
+  int i=0;
+  FILE * output_txt = fopen(nombre, "w");
+  while (i<columnas/2){
+    fprintf(output_txt,"%f\n",array[i]);
+  i++;
+  }
+  fclose(output_txt);
+}
 int main() {
   //inicialización del seed aleatorio con una variable de tiempo, de forma que la iteración no sea siempre la misma.
   srand(time(NULL));
-  FILE * output_txt = fopen("output.txt", "w");
   int L_poroso,buffer1,buffer2,n_porosos;
   float ratio_porosidad;
 
@@ -167,6 +191,8 @@ int main() {
   int unos=L_poroso-((ratio_porosidad*L_poroso)/(ratio_porosidad+1));
   int huecos[n_porosos][L_poroso/2];
   float histograma[L_poroso/2];
+  float max_histograma_y,max_histograma_x;
+
   //creación del array sin aleatorizar
 
   crear_matriz_porosos (porosos,L_poroso,n_porosos,unos);
@@ -199,9 +225,37 @@ int main() {
   printf("\n");
   printf("Histograma normalizado (en porcentaje):\n");
   printf("----------------------------------------------------------------------\n");
-  dividir_array (histograma,L_poroso/2,L_poroso*n_porosos/100);
+  dividir_array (histograma,L_poroso/2,L_poroso);
   print_array_1d (histograma,L_poroso/2,1,1);
 
+  escala_histograma (histograma,L_poroso,&max_histograma_x,&max_histograma_y);
+
+  print_array_1d_to_file ("histograma.txt",histograma,L_poroso/2);
+
+
+
+  char * config_plot_histograma[] = {"","","","set key",""};
+  char titulo[100],ejes_x[100],ejes_y[100],ploteo[1000];
+  sprintf(titulo, "set title \"Histograma de porosidad (L = %i, r=%.2f, N=%i)\"",L_poroso,ratio_porosidad,n_porosos);
+  sprintf(ejes_x,"set xrange [0:%f]",1.2*max_histograma_x);
+  sprintf(ejes_y,"set yrange [0:%f]",1.2*max_histograma_y);
+  sprintf(ploteo,"plot \"histograma.txt\" title \"Experimental\" with histogram linecolor rgb \"red\" fs solid 1 noborder,(%f**x)/((1+%f)**(2+x)) title \"Teórico\" linecolor rgb \"black\" lw 1",ratio_porosidad,ratio_porosidad);
+
+  config_plot_histograma[0]=titulo;
+  config_plot_histograma[1]=ejes_x;
+  config_plot_histograma[2]=ejes_y;
+  config_plot_histograma[4]=ploteo;
+
+      /*Se crea una archivo de tipo poen, es una tebería IPC que se usa, para
+       * ejecutar gnuplot y enviarle el archivo a graficar*/
+      FILE * gnuplot_histograma = popen ("gnuplot -persist", "w");
+      // Executing gnuplot commands one by one
+int i=0;
+      for (i=0;i<5;i++){
+    fprintf(gnuplot_histograma, "%s \n", config_plot_histograma[i]);
+   }
+
+   pclose(gnuplot_histograma);
 }
 //
 // i=0;
