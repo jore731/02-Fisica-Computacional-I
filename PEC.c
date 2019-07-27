@@ -5,7 +5,15 @@
 #include <time.h>
 #include <math.h>
 
-void inicializar_ceros_1d (int *array,int L_filas){
+void inicializar_i_ceros_1d (int *array,int L_filas){
+  int i=0;
+  while (i<L_filas){
+    array[i]=0;
+    i++;
+  }
+}
+
+void inicializar_f_ceros_1d (float *array,int L_filas){
   int i=0;
   while (i<L_filas){
     array[i]=0;
@@ -120,7 +128,7 @@ int i=0,h_act=0;
 void crear_matriz_huecos (int * array,int * huecos,int filas,int columnas){
   int i=0;
   while (i<filas){
-    inicializar_ceros_1d (&huecos[i*columnas/2],columnas/2);
+    inicializar_i_ceros_1d (&huecos[i*columnas/2],columnas/2);
     calcular_huecos (&array[i*columnas],&huecos[i*columnas/2],columnas);
     i++;
   }
@@ -129,7 +137,7 @@ void crear_matriz_huecos (int * array,int * huecos,int filas,int columnas){
 
 void crear_histograma (int * array,float * histograma,int filas, int columnas){
   int i=0, j=0;
-  inicializar_ceros_1d (histograma,columnas);
+  inicializar_f_ceros_1d (histograma,columnas);
   while (i<filas){
     while (j<columnas) {
       histograma[j]=histograma[j]+array[i*columnas+j];
@@ -164,15 +172,59 @@ void escala_histograma (float *array,int columnas,float *max_x, float *max_y){
   }
 }
 
-void print_array_1d_to_file (char * nombre,float * array,int columnas){
+void print_array_f_1d_to_file (char * nombre,float * array,int columnas, FILE * output_txt){
   int i=0;
+  while (i<columnas){
+    if (i==0) {
+      fprintf(output_txt,"%f ",array[i]);
+    }
+    else {
+      fprintf(output_txt,"| %f ",array[i]);
+    }
+    i++;
+  }
+}
+
+void print_array_f_2d_t1o_file (char * nombre,float * array,int columnas, int filas){
+  int j=0;
   FILE * output_txt = fopen(nombre, "w");
-  while (i<columnas/2){
-    fprintf(output_txt,"%f\n",array[i]);
-  i++;
+  while (j<filas) {
+    print_array_f_1d_to_file(nombre,&array[j*columnas],columnas,output_txt);
+    if (j!=filas-1){
+      fprintf(output_txt,"\n");
+    }
+    j++;
   }
   fclose(output_txt);
 }
+
+void print_array_i_1d_to_file (char * nombre,int * array,int columnas, FILE * output_txt){
+  int i=0;
+  while (i<columnas){
+    if (i==0) {
+      fprintf(output_txt,"%i ",array[i]);
+    }
+    else {
+      fprintf(output_txt,"| %i ",array[i]);
+    }
+    i++;
+  }
+}
+
+void print_array_i_2d_to_file (char * nombre,int * array,int columnas, int filas){
+  int j=0;
+  FILE * output_txt = fopen(nombre, "w");
+  while (j<filas) {
+    print_array_i_1d_to_file(nombre,&array[j*columnas],columnas,output_txt);
+    if (j!=filas-1){
+      fprintf(output_txt,"\n");
+    }
+    j++;
+  }
+  fclose(output_txt);
+}
+
+
 int main() {
   //inicialización del seed aleatorio con una variable de tiempo, de forma que la iteración no sea siempre la misma.
   srand(time(NULL));
@@ -208,31 +260,30 @@ int main() {
   printf("\n");
   printf("Matriz de huecos de cada ejemplar de poroso generado aleatoriamente.\n");
   printf("----------------------------------------------------------------------\n");
-  print_array_2d (huecos,L_poroso/2,n_porosos,1);
+  //print_array_2d (huecos,L_poroso/2,n_porosos,1);
   printf("\n");
   printf("\n");
   printf("Histograma:\n");
   printf("Acumulado\n");
   printf("----------------------------------------------------------------------\n");
   crear_histograma(huecos,histograma,n_porosos,L_poroso/2);
-  print_array_1d (histograma,L_poroso/2,1,1);
+  //print_array_1d (histograma,L_poroso/2,1,1);
   printf("\n");
   printf("Promedio\n");
   printf("----------------------------------------------------------------------\n");
   dividir_array (histograma,L_poroso/2,n_porosos);
-  print_array_1d (histograma,L_poroso/2,1,1);
+  //print_array_1d (histograma,L_poroso/2,1,1);
   printf("\n");
   printf("\n");
   printf("Histograma normalizado (en porcentaje):\n");
   printf("----------------------------------------------------------------------\n");
   dividir_array (histograma,L_poroso/2,L_poroso);
-  print_array_1d (histograma,L_poroso/2,1,1);
+  //print_array_1d (histograma,L_poroso/2,1,1);
 
   escala_histograma (histograma,L_poroso,&max_histograma_x,&max_histograma_y);
 
-  print_array_1d_to_file ("histograma.txt",histograma,L_poroso/2);
-
-
+  print_array_f_2d_to_file ("histograma.txt",histograma,L_poroso/2,1);
+  print_array_i_2d_to_file ("output.txt",porosos,L_poroso,n_porosos);
 
   char * config_plot_histograma[] = {"","","","set key",""};
   char titulo[100],ejes_x[100],ejes_y[100],ploteo[1000];
@@ -245,7 +296,6 @@ int main() {
   config_plot_histograma[1]=ejes_x;
   config_plot_histograma[2]=ejes_y;
   config_plot_histograma[4]=ploteo;
-
       /*Se crea una archivo de tipo poen, es una tebería IPC que se usa, para
        * ejecutar gnuplot y enviarle el archivo a graficar*/
       FILE * gnuplot_histograma = popen ("gnuplot -persist", "w");
