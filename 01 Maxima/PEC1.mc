@@ -4,19 +4,25 @@
  @dni 05950206Z
  @date 10 Abril 2020
 **/
-/**----------------------------------EJERCICIO 1----------------------------------**/
+/***********************************************************************************/
+/************************************EJERCICIO 1************************************/
+/***********************************************************************************/
 /**
  @brief EJERCICIO 1: Interpolación lineal, lagrangiana y por medio de splines 
-de los datos importados de un fichero.
-Se puede utilizar la función multi_interpolation() si se desea una validación de
-los datos de entrada así como una mayor tolerancia con los mismos 
-(omisiones, extensiones, rutas...)
+        de los datos importados de un fichero.
+        Se puede utilizar la función multi_interpolation() si se desea una validación de
+        los datos de entrada así como una mayor tolerancia con los mismos 
+        (omisiones, extensiones, rutas...)
+
  @param dataFilePath   Ruta al archivo de datos a utilizar ("*.out").
+
  @param outputPlotPath Ruta al archivo de datos a generar (".lisp").
+
  @param outputDataPath Ruta al archivo gráfico a generar (".pdf").
+
  @return Una vez el proceso ha concluido y los archivos han sido generados 
-        correctamente, imprime las rutas de los archivos generados y devuelve
-        "done".
+         correctamente, imprime las rutas de los archivos generados y devuelve
+         "done".
 **/
 multi_interpolation_processed_input(dataFilePath, 
                                     outputPlotPath, 
@@ -68,29 +74,32 @@ multi_interpolation_processed_input(dataFilePath,
 );
 
 /**
- @brief EJERCICIO 1 (Con filtrado de datos):  Filtra y valida la entrada de datos antes
-                                             de pasarlos a la función principal.
+ @brief EJERCICIO 1 (Con filtrado de datos):  Filtrado y validación de datos de entrada 
+    	antes de pasarlos a la función principal.
 
  @param rawDataFilePath Nombre/Ruta del archivo a importar.
-    - Ruta completa al archivo
-    - Nombre del archivo de datos
-    - Funciona con y sin extensión
- @param kargs    - Parámetros opcionales para la ejecución de la función.
+                        - Ruta completa al archivo
+                        - Nombre del archivo de datos
+                        - Funciona con y sin extensión
+
+ @param kargs   - Parámetros opcionales para la ejecución de la función.
                 - Son argumentos posicionales, que pueden omitirse siempre y cuando se 
-                    omitan todos los parametros posteriores.
+                  omitan todos los parametros posteriores.
                 - Para omitir parámetros intermedios, le daremos el valor "None".
-                    (ejemplo: multi_interpolation("data-1",
-                                                  None,
-                                                  "data-1_processed.lisp")
-                        rawOutputPlotFileName y forceOutputPath son omitidos)
+                  (ejemplo: multi_interpolation("data-1", None, "data-1_processed.lisp")
+                   rawOutputPlotFileName y forceOutputPath son omitidos)
+
     @param rawOutputPlotFileName - Nombre del archivo gráfico generado (.pdf).
-                                    - Funciona con y sin extensión.
-                                    - Comprueba que la extensión sea correcta.
+                                 - Funciona con y sin extensión.
+                                 - Comprueba que la extensión sea correcta.
+
     @param rawOutputDataFileName - Nombre/Ruta del archivo de datos generado (.lisp).
-                                    - Funciona con y sin extensión.
-                                    - Comprueba que la extensión sea correcta.
-    @param forceOutputPath   - Ruta de destino de los archivos generados.
-                                - Formato Linux (Acepta "/" y "\\", pero no "\").
+                                 - Funciona con y sin extensión.
+                                 - Comprueba que la extensión sea correcta.
+
+    @param forceOutputPath       - Ruta de destino de los archivos generados.
+                                 - Formato Linux (Acepta "/" y "\\", pero no "\").
+
  @return Valida los datos de entrada y, si estos son válidos, ejecuta la función principal 
         con ellos. Los siguientes errores están contemplados:
             - "{DataFilePath} not found"
@@ -190,4 +199,90 @@ multi_interpolation(rawDataFilePath,[kargs]) := block(
     multi_interpolation_processed_input(dataFilePath,
                                         outputPlotPath,
                                         outputDataPath)
+);
+
+/***********************************************************************************/
+/************************************EJERCICIO 2************************************/
+/***********************************************************************************/
+/**
+ @brief EJERCICIO 2: Parametrización de modelo aproximado mediante ajuste de mínimos 
+        cuadrados de los datos ubicados en el archivo al que apunta dataFilePath.
+ 
+ @param rawDataInput Nombre/Ruta del archivo a importar o lista de datos a utilizar
+
+ @param model Definición del modelo a utilizar en el ajuste (ej a*x + b)
+
+ @param depVar Variable dependiente del modelo (ej x)
+
+ @param parameters Lista de parametros característicos que definen el modelo y cuyos
+                   valores se calcularán mediante el ajuste de mínimos cuadrados
+
+ @param kargs - Parámetros opcionales para la ejecución de la función.
+              - Son argumentos posicionales, que pueden omitirse siempre y cuando se 
+                omitan todos los parametros posteriores.
+        
+        @param plotCheck Si true, plotea los datos de entrada junto a la recta de
+                         de ajuste calculada.
+        
+        @param roundTo  Dado que los valores son representados como float, se da la 
+                        posibilidad de imprimir por pantalla una versión redondeada
+                        de la ecuación característica sin afectar al funcionamiento
+                        general de maxima a la hora de representar floats ni perder
+                        datos en la ecuación retornada.
+                         
+ @return devuelve la expresión de la recta de ajuste calculada en formato 
+         indepVar = f(depVar)
+**/
+adjust_to_model(rawDataInput, model, depVar, parameters, [kargs]):= block(
+    [data,mData,LSQuares,function,solutions,    /**aparentemente lsquare_estimates **/
+    plotCheck, aux, data_dep,data_indep,        /**arrastra la variable "solutions"**/
+    dom_dep,dom_indep,roundTo, old_fpprintprec] /**fuera de su bloque de ejecución **/
+    ,
+/**CARGA DE LIBRERÍAS PARA AJUSTE DE MÍNIMOS CUADRADOS Y GERSTIÓN DE CADENAS DE TEXTO*/
+    load(lsquares),
+    load(stringproc)
+    ,
+/********************ASIGNACIÓN DE PARAMETROS OPCIONALES SI PROCEDE*******************/   
+    if length(kargs)>0 then plotCheck : kargs[1]
+    else plotCheck: false,
+    if length(kargs)>1 then roundTo : kargs[2]
+    else roundTo: false
+    ,
+/****************LECTURA DE DATOS COMO LISTA Y COMO MATRIZ (SI PROCEDE)***************/
+/****Esto nos permite utilizar el tipo de dato más conveniente en cada contemplados***/
+    if stringp(rawDataInput) then data: read_nested_list(rawDataInput)
+    else data: rawDataInput,
+    if plotCheck then mData: apply(matrix, data)
+    ,
+/*************PREPARACIÓN DEL MODELO PREVIA AL AJUSTE DE MINIMOS CUADRADOS************/
+/*****dado que el ajuste de mínimos requiere una funcion de formato f(x,y):= y=f(x)***/
+    generic_expresion(func):= indepVar = func,
+    func(depVar, indepVar):= generic_expresion(model)
+    ,
+/*****CALCULO DE PARÁMTROS CARACTERÍSTICOS MEDIANTE EL AJUSTE DE MINIMOS CUADRADO*****/
+    LSQuares: lsquares_estimates(mData,
+                                [depVar,indepVar],
+                                func(depVar,indepVar),
+                                parameters),
+/***********SUSTITUCIÓN DE PARÁMETROS CARACTERÍSTICOS EN LA FUNCIÓN INICIAL***********/
+    function: float(subst(LSQuares[1], func(depVar,indepVar)))
+,
+/**********GRAFICACIÓN DE LOS DATOS CALCULADOS SI PROCEDE SEGUN CONFIGURACIÓN*********/
+    if plotCheck then(
+        aux: subst(function, indepVar),
+        data_dep: transpose(mData)[1],
+        data_indep: transpose(mData)[2],
+        dom_dep: [x, apply(min, data_dep), apply(max, data_dep)],
+        dom_indep: [y, apply(min, data_indep), apply(max, data_indep)],
+        plot2d([[discrete, data], aux], dom_dep, dom_indep, [style, points, lines])
+    )
+    ,
+/************IMPRESIÓN DE DATOS REDONDEADOS SI PROCEDE SEGUN CONFIGURACIÓN************/
+    if not roundTo=false then (
+        old_fpprintprec: fpprintprec,
+        fpprintprec: roundTo,
+        print(sconcat("Rounded to ", roundTo," decimal positions: ", function)),
+        fpprintprec: old_fpprintprec),
+/******RETORNA LA FUNCIÓN UNA VEZ LOS PARÁMETROS CARACTERÍSTICOS SON SUSTITUIDOS******/
+    return (function)
 );
