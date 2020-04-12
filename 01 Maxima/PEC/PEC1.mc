@@ -28,7 +28,7 @@ multi_interpolation_processed_input(dataFilePath,
                                     outputPlotPath, 
                                     outputDataPath):= block(
 /****************************CREACIÓN DE VARIABLES LOCALES****************************/
-    [data, mData, data_x, data_y, dom_x, dom_y, data_linear, 
+    [data, mData, dataIndep, dataDep, domIndep, domDep, data_linear, 
     data_lagrange, data_splines]
     ,
 /************************CARGA DE LIBRERÍA PARA INTERPOLACIONES***********************/
@@ -46,11 +46,11 @@ multi_interpolation_processed_input(dataFilePath,
     ,
 /*****************************CALCULO DE DOMINIO DE X e Y*****************************/
 /**********************Requiere separación de los datos por ejes**********************/
-    data_x:transpose(mData)[1],
-    data_y:transpose(mData)[2]
+    dataIndep:transpose(mData)[1],
+    dataDep:transpose(mData)[2]
     ,
-    dom_x:[x,apply(min,data_x), apply(max,data_x)],
-    dom_y:[y,apply(min,data_y), apply(max,data_y)]
+    domIndep:[x,apply(min,dataIndep), apply(max,dataIndep)],
+    domDep:[y,apply(min,dataDep), apply(max,dataDep)]
     ,
 
 /*******************HITO 3: GUARDADO DE INTERPOLACIONES EN .LISP**********************/
@@ -58,14 +58,18 @@ multi_interpolation_processed_input(dataFilePath,
     ,
 /************************HITO 2: GUARDADO DE GRÁFICA EN .PDF*************************/
     plot2d ([[discrete,data],data_linear,data_lagrange, data_splines],  
-            dom_x,dom_y,
+            domIndep,domDep,
             [style,points,lines,lines,lines],
-            [pdf_file,outputPlotPath])
+            [pdf_file,outputPlotPath], 
+            [legend, "Input Data", "Linear Interpolation", 
+                     "Lagrange Interpolation","Splines Interpolation"])
     ,
 /***********************HITO 1: GRAFICADO DE DATOS EN PANTALLA***********************/
     plot2d ([[discrete,data],data_linear,data_lagrange, data_splines],  
-            dom_x,dom_y,
-            [style,points,lines,lines,lines])
+            domIndep,domDep,
+            [style,points,lines,lines,lines], 
+            [legend, "Input Data", "Linear Interpolation", 
+                     "Lagrange Interpolation","Splines Interpolation"])
     ,
 /****************************MENSAJE DE EJECUCIÓN CORRECTA***************************/
     print(sconcat(outputPlotPath," generated")),
@@ -201,6 +205,7 @@ multi_interpolation(rawDataFilePath,[kargs]) := block(
                                         outputDataPath)
 );
 
+
 /***********************************************************************************/
 /************************************EJERCICIO 2************************************/
 /***********************************************************************************/
@@ -210,12 +215,13 @@ multi_interpolation(rawDataFilePath,[kargs]) := block(
  
  @param rawDataInput Nombre/Ruta del archivo a importar o lista de datos a utilizar
 
- @param model Definición del modelo a utilizar en el ajuste (ej a*x + b)
+ @param model Definición del modelo a utilizar en el ajuste. Lista compuesta de:
+              - Modelo matemático (ej a*x^2 + b*x + c)
+              - Variable independiente de este (ej x)
+              - Lista de parámetros característicos que definen el modelo y que serán
+                calculados numericamente. (ej [a,b,c])
 
- @param depVar Variable dependiente del modelo (ej x)
-
- @param parameters Lista de parametros característicos que definen el modelo y cuyos
-                   valores se calcularán mediante el ajuste de mínimos cuadrados
+                ej: [a*x^2 + b*x + c, x, [a,b,c]]
 
  @param kargs - Parámetros opcionales para la ejecución de la función.
               - Son argumentos posicionales, que pueden omitirse siempre y cuando se 
@@ -231,16 +237,22 @@ multi_interpolation(rawDataFilePath,[kargs]) := block(
                         datos en la ecuación retornada.
                          
  @return devuelve la expresión de la recta de ajuste calculada en formato 
-         indepVar = f(depVar)
+         depVar = f(indepVar)
 **/
-adjust_to_model(rawDataInput, model, depVar, parameters, [kargs]):= block(
+adjust_to_model(rawDataInput, modelInput, [kargs]):= block(
     [data,mData,LSQuares,function,solutions,    /**aparentemente lsquare_estimates **/
-    plotCheck, aux, data_dep,data_indep,        /**arrastra la variable "solutions"**/
-    dom_dep,dom_indep,roundTo, old_fpprintprec] /**fuera de su bloque de ejecución **/
+    plotCheck, aux, dataDep,dataIndep,        /**arrastra la variable "solutions"**/
+    domDep,domIndep,roundTo, oldFpprintprec, /**fuera de su bloque de ejecución **/
+    model, indepVar,parameters]
     ,
 /**CARGA DE LIBRERÍAS PARA AJUSTE DE MÍNIMOS CUADRADOS Y GERSTIÓN DE CADENAS DE TEXTO*/
     load(lsquares),
     load(stringproc)
+    ,
+/*******************************ASIGNACIÓN DE PARAMETROS******************************/   
+    model: modelInput[1],
+    indepVar: modelInput[2],
+    parameters: modelInput[3]
     ,
 /********************ASIGNACIÓN DE PARAMETROS OPCIONALES SI PROCEDE*******************/   
     if length(kargs)>0 then plotCheck : kargs[1]
@@ -248,41 +260,172 @@ adjust_to_model(rawDataInput, model, depVar, parameters, [kargs]):= block(
     if length(kargs)>1 then roundTo : kargs[2]
     else roundTo: false
     ,
-/****************LECTURA DE DATOS COMO LISTA Y COMO MATRIZ (SI PROCEDE)***************/
+/***********************LECTURA DE DATOS COMO LISTA Y COMO MATRIZ*********************/
 /****Esto nos permite utilizar el tipo de dato más conveniente en cada contemplados***/
     if stringp(rawDataInput) then data: read_nested_list(rawDataInput)
     else data: rawDataInput,
-    if plotCheck then mData: apply(matrix, data)
+    mData: apply(matrix, data)
     ,
 /*************PREPARACIÓN DEL MODELO PREVIA AL AJUSTE DE MINIMOS CUADRADOS************/
 /*****dado que el ajuste de mínimos requiere una funcion de formato f(x,y):= y=f(x)***/
-    generic_expresion(func):= indepVar = func,
-    func(depVar, indepVar):= generic_expresion(model)
+    generic_expresion(func):= depVar = func,
+    func(indepVar, depVar):= generic_expresion(model)
     ,
 /*****CALCULO DE PARÁMTROS CARACTERÍSTICOS MEDIANTE EL AJUSTE DE MINIMOS CUADRADO*****/
     LSQuares: lsquares_estimates(mData,
-                                [depVar,indepVar],
-                                func(depVar,indepVar),
+                                [indepVar,depVar],
+                                func(indepVar,depVar),
                                 parameters),
 /***********SUSTITUCIÓN DE PARÁMETROS CARACTERÍSTICOS EN LA FUNCIÓN INICIAL***********/
-    function: float(subst(LSQuares[1], func(depVar,indepVar)))
+    function: float(subst(LSQuares[1], func(indepVar,depVar)))
 ,
 /**********GRAFICACIÓN DE LOS DATOS CALCULADOS SI PROCEDE SEGUN CONFIGURACIÓN*********/
     if plotCheck then(
-        aux: subst(function, indepVar),
-        data_dep: transpose(mData)[1],
-        data_indep: transpose(mData)[2],
-        dom_dep: [x, apply(min, data_dep), apply(max, data_dep)],
-        dom_indep: [y, apply(min, data_indep), apply(max, data_indep)],
-        plot2d([[discrete, data], aux], dom_dep, dom_indep, [style, points, lines])
+        aux: subst(function, depVar),
+        dataIndep: transpose(mData)[1],
+        dataDep: transpose(mData)[2],
+        domIndep: [x, apply(min, dataIndep), apply(max, dataIndep)],
+        domDep: [y, apply(min, dataDep), apply(max, dataDep)],
+        plot2d([[discrete, data], aux], domIndep, domDep, 
+                [style, points, lines], [legend,"Input data", "Aprox Model"])
     )
     ,
 /************IMPRESIÓN DE DATOS REDONDEADOS SI PROCEDE SEGUN CONFIGURACIÓN************/
     if not roundTo=false then (
-        old_fpprintprec: fpprintprec,
+        oldFpprintprec: fpprintprec,
         fpprintprec: roundTo,
-        print(sconcat("Rounded to ", roundTo," decimal positions: ", function)),
-        fpprintprec: old_fpprintprec),
+        print(sconcat("Rounded to ", roundTo," significant figures: ", function)),
+        fpprintprec: oldFpprintprec),
 /******RETORNA LA FUNCIÓN UNA VEZ LOS PARÁMETROS CARACTERÍSTICOS SON SUSTITUIDOS******/
     return (function)
+);
+
+
+/***********************************************************************************/
+/*********************************EJERCICIOS 3 y 4**********************************/
+/***********************************************************************************/
+/**
+ @brief EJERCICIOS 3 y 4: Comprovación gráfica de la teoría de diferenciación por 
+ diferencias centradas de un modelo de datos. Se compara la derivación numérica de
+ la expresión que define un muestreo de datos (puede ser calculada con la función
+ adjust_to_model). 
+ 
+ @param  rawDataInput Nombre/Ruta del archivo a importar o lista de datos a utilizar
+ 
+ @param  function Expresión matemática que define los datos de "rawDataInput"
+
+ @param kargs - Parámetros opcionales para la ejecución de la función.
+              - Son argumentos posicionales, que pueden omitirse siempre y cuando se 
+                omitan todos los parametros posteriores.
+        
+        @param  evalSDiff Si true, calcula y compara también la segundaa derivada.
+                          Implementación del contenido del ejercicio 4.
+                          
+        
+        @param  zoom Con el fin de poder valorar la "precisión" de las derivadas
+                     (Primera y segunda) es importante considerar una escala similar
+                     tanto al evaluar los datos de entrada como los de salida, por lo
+                     que por defecto se utilizará una escala de valores que comprenda
+                     todos los posibles valores de los datos de entrada y de salida,
+                     pero en caso de querer mayor precisión en las gráficas de salida,
+                     podremos utilizar zoom=true para considerar unicamente los valores
+                     calculados para cada una de las gráficas.
+
+        @param compareAnalitically Además de la comprobación gráfica, se da la 
+                                   posibilidad de aproximar los resultados de los 
+                                   cálculos a una expresión mediante la dereivación
+                                   del modelo que define "function" para así comparar
+                                   dicha aproximación con la derivada directa de la 
+                                   misma. Para ello utilizaremos 
+                                   compareAnalitically = model 
+                                    **siendo model = 
+                         
+ @return  
+**/
+compare_first_diff(rawDataInput, function, indepVar,[kargs]):= block(
+    [evalSDiff, compareAnalitically, data,mData, dataIndep, dataDep, functionDiff,
+    functionSDiff, dataDiff, listDataDiff, dataSDiff, listDataSDiff, domIndep,
+    domDiff, domSDiff, modelDiff,LSQuareAproxDiff,modelSDiff,LSQuareAproxSDiff, 
+    zoom, numModelDiff, numModelSDiff]
+    ,
+    load(stringproc)
+    ,
+/********************ASIGNACIÓN DE PARAMETROS OPCIONALES SI PROCEDE*******************/   
+    if length(kargs)>0 then evalSDiff : kargs[1]
+    else evalSDiff: false,
+    if length(kargs)>1 then zoom : kargs[2]
+    else zoom: false,
+    if length(kargs)>2 then compareAnalitically : kargs[3]
+    else compareAnalitically: false,
+/***********************LECTURA DE DATOS COMO LISTA Y COMO MATRIZ*********************/
+/****Esto nos permite utilizar el tipo de dato más conveniente en cada contemplados***/
+    if stringp(rawDataInput) then data: read_nested_list(rawDataInput)
+    else data: rawDataInput,
+    mData: apply(matrix, data)
+    ,
+/*************SEPARACIÓN DE DATOS EN VARIABLE DEPENDIENTE E INDEPENDIENTE************/
+/*Esto nos permitirá acceder a los valores de estas de manera rápida con dep/indep(n)*/
+    dataIndep: transpose(mData)[1],
+    dataDep: transpose(mData)[2]
+    ,
+/***********CÁLCULO DE LA PRIMERA (Y SEGUNDA SI PROCEDE) DERIVADA DEL MODELO**********/
+    functionDiff: diff(function,indepVar),
+    if evalSDiff then functionSDiff: diff(functionDiff, indepVar)
+    ,
+/***************CÁLCULO DE DIFERENCIAS CENTRADAS DE LOS DATOS DE ENTRADA**************/
+/***********************************Primera deriada***********************************/
+    diffCent(n):= (dataDep[n + 1] - dataDep[n - 1]) / 
+                  (dataIndep[n + 1] - dataIndep[n - 1]),
+    dataDiff: makelist(diffCent(n), n, 2, length(dataIndep) - 1),
+    listDataDiff: makelist([dataIndep[n+1],dataDiff[n]], n, 1, length(dataDiff))
+    ,
+/****************************Segunda deriada (si procede)*****************************/
+    if evalSDiff then (
+        sDiffCent(n):= (dataDep[n + 1] - 2*dataDep[n] +dataDep[n-1]) / 
+                       (dataIndep[n + 1] - dataIndep[n])^2,
+        dataSDiff: makelist(sDiffCent(n), n, 2, length(dataIndep) - 1),
+        listDataSDiff: makelist([dataIndep[n+1],dataSDiff[n]], n, 1, length(dataSDiff)))
+    ,
+/***************CÁLCULO DE DOMINIOS PARA GRÁFICAS SEGÚN CONFIGURACIÓN****************/
+    domIndep: [x, apply(min, dataIndep), apply(max, dataIndep)],
+    if zoom then (
+        domDiff: [y, apply(min, dataDiff), apply(max, dataDiff)],
+        if evalSDiff then 
+            domSDiff: [y, apply(min, dataSDiff), apply(max,dataSDiff)])
+    else (
+        domDiff: [y, apply(min, [apply(min,dataDep), apply(min,dataDiff)]), 
+                    apply(max, [apply(max,dataDep), apply(max,dataDiff)])],
+        if evalSDiff then 
+            domSDiff: [y, apply(min, [apply(min,dataDep), apply(min,dataSDiff)]), 
+                        apply(max, [apply(max,dataDep), apply(max,dataSDiff)])])
+    ,
+/*****************************GRAFICACIÓN DE RESULTADOS*******************************/
+    plot2d([[discrete, listDataDiff], functionDiff], domIndep, domDiff, 
+            [style, points, lines],[legend,"Cent. Diff. Data", "Function"]),
+    if evalSDiff then 
+        plot2d([[discrete, listDataSDiff], functionSDiff], domIndep, domSDiff, 
+                [style, points, lines],[legend,"Cent. Diff. Data", "Function"])
+    ,
+/****************EVALUACIÓN NUMÉRICA DE LOS RESULTADOS (SI PROCEDE)*******************/
+    if not compareAnalitically=false then (
+        numModelDiff: diff(compareAnalitically[1],compareAnalitically[2]),
+        modelDiff: [numModelDiff, compareAnalitically[2], compareAnalitically[3]],
+        LSQuareAproxDiff: subst(adjust_to_model(listDataDiff, modelDiff),depVar),
+        if evalSDiff then (
+            numModelSDiff: diff(numModelDiff,compareAnalitically[2]),
+            modelSDiff: [numModelSDiff, compareAnalitically[2], compareAnalitically[3]],
+            LSQuareAproxSDiff: subst(adjust_to_model(listDataSDiff, modelSDiff),depVar))
+        ,
+/***********MOSTRADO DE RESULTADOS DE LA EVALUACIÓN NUMÉRICA (SI PROCEDE)**************/
+        print("Function first derivative:"),
+        print(functionDiff),
+        print(
+         "LSQuare aproximation of centered differences data(first derivative):"),
+        print(LSQuareAproxDiff),
+        if evalSDiff then (
+            print("Function second derivative:"),
+            print(functionSDiff),
+            print(
+             "LSQuare aproximation of centered differences data(second derivative):"),
+            print(LSQuareAproxSDiff)))
 );
