@@ -1,13 +1,13 @@
 *.lisp
 01 Maxima/PEC/data
 01 Maxima/PEC/outputs
-02 C/2020 - PEC 2/.vscode/*
 02 C/2020 - PEC 2/cmake-build-debug/*
 02 C/2020 - PEC 2/docs/build/*
 *.zip
-02 C/2020 - PEC 2/.idea/.gitignore
-02 C/2020 - PEC 2/.idea/.name
-02 C/2020 - PEC 2/.idea/2020 - PEC 2.iml
-02 C/2020 - PEC 2/.idea/misc.xml
-02 C/2020 - PEC 2/.idea/modules.xml
-02 C/2020 - PEC 2/.idea/vcs.xml
+02 C/2020 - PEC 2/.idea/*
+*.mp4
+*.pdf
+02 C/2020 - PEC 2/build/*
+02 C/2020 - PEC 2/workspace.code-workspace
+02 C/2020 - PEC 2/.vscode/c_cpp_properties.json
+02 C/2020 - PEC 2/.vscode/settings.json
