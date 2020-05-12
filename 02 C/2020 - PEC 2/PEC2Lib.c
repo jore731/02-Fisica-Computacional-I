@@ -4,6 +4,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <errno.h>
+
 #include "PEC2Lib.h"
 
 void inicializar_i_ceros_1d(int *array, int L_filas)
@@ -85,14 +89,14 @@ void print_array_f_1d(float *array, int columnas, int espacio, int printfloat)
 void print_array_i_1d(int *array, int columnas, int espacio)
 {
     int i = 0;
-    int * ptr = array;
+    int *ptr = array;
     while (i < columnas)
     {
         if (espacio == 0)
         {
-//            printf("%i", array[i]);
-        printf("%i ", *ptr);
-        ptr++;
+            //            printf("%i", array[i]);
+            printf("%i ", *ptr);
+            ptr++;
         }
         else
         {
@@ -293,24 +297,60 @@ int simularDesintegracion(int arrayIn[], int arrayOut[], int length, float p, fl
     return desintegraciones;
 }
 
-void initializeChunkedArray(int * mainArray, int * chunkPointersArray, int * sizesArray, int chunks) {
-//    int position = 4;
-    int *pttr, j;
-    char *p;
-    printf("Reading array");
-    printf("%i", chunks);
-    for (j = 0; j < chunks; ++j) {
-        printf("reading chunk");
-        pttr = mainArray;
-//        p = (char *) pttr;
-        printf("Moving pointer");
-//        p += position;    //increments pointer by 8 bytes
-//        pttr = (int *) p;
-//        chunkPointersArray[j] = (int)pttr;
-        printf("Initializing array");
-        inicializar_i_unos_1d(&pttr, sizesArray[j]);
-//        position += sizesArray[j];
-        printf("chunk read");
+void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, float *t, float dt, int *histogram, int M)
+{
+    int j;
+    for (j = 0; j < M; j++)
+    {
+        //Actuación por cada muestra
+        int disintegrations = simularDesintegracion(arrayIn, arrayOut, length, p, t, dt);
+        histogram[disintegrations]++;
     }
-    return;
+}
+
+void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int length)
+{
+    int i;
+    for (i = 0; i < length; i++)
+    {
+        arrayOut[i] = (float)arrayIn[i] / divider;
+    }
+}
+
+int checkAndCreateDirectory(const char *directory)
+{
+    int mkDirDone=0;
+    while (1)
+    {
+        DIR *dir = opendir(directory);
+        if (dir)
+        {
+            return 0;
+        }
+        else if ((ENOENT == errno) && (mkDirDone==0))
+        {
+            mkdir(directory);
+            mkDirDone=1;
+        }
+        else
+        {
+            printf("\nERROR: COULD NOT CREATE OUTPUT DIRECTORY.\nPlease create %s directory manually\n");
+            char answer = ' ';
+            while (1)
+            {
+                answer = ' ';
+                printf("Done/cancel (d/c): ");
+                scanf(" %c", &answer);
+                if (answer == 'd')
+                {
+                    mkDirDone=0;
+                    break;
+                }
+                else if (answer == 'c')
+                {
+                    return -1;
+                }
+            }
+        }
+    }
 }
