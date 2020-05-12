@@ -71,7 +71,7 @@
         {
             "label": "Run main",
             "type": "shell",
-            "command": ".\\main.exe",
+            "command": "build\\main.exe",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
