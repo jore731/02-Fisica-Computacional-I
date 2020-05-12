@@ -1,0 +1,85 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make html",
+            "type": "shell",
+            "command": "docs/make html",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Make latexpdf",
+            "type": "shell",
+            "command": "docs/make latexpdf",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Show index",
+            "type": "shell",
+            "command": ".\\index.html",
+            "options": {
+                "cwd": "${workspaceFolder}/docs/build/html/"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Show pdf",
+            "type": "shell",
+            "command": ".\\pec2-c.pdf",
+            "options": {
+                "cwd": "${workspaceFolder}/docs/build/latex/"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "compile C",
+            "type": "shell",
+            "command": "gcc -std=c99 -o build\\main main.c PEC2Lib.c PEC2Lib.h ",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run main",
+            "type": "shell",
+            "command": ".\\main.exe",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
