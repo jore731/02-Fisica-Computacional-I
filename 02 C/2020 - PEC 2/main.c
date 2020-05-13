@@ -1,21 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <time.h>
+#include <math.h>
+
+#include "PEC2Lib.h"
 //
 // Created by Jorge Pulido on 09/05/2020.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "PEC2Lib.h"
-
-const int MAX_SCENARIOS = 2;
+const int MAX_SCENARIOS = 4;
 const char outPath[40] = "outputFiles/testing/some";
 
 int main()
 {
-    // *************************************************************************
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Declaración de variables generales y arrays dinámicos
-    // *************************************************************************
-    int scenarios = 0;
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    int scenarios = 0, DEBUG = 0;
     char answer = ' ';
     int i, j;
 
@@ -24,10 +27,12 @@ int main()
     float *p_desintegration = (float *)calloc(MAX_SCENARIOS, sizeof(float));
     float *dt = (float *)calloc(MAX_SCENARIOS, sizeof(float));
     float *t = (float *)calloc(MAX_SCENARIOS, sizeof(int));
+    float *rangeX = (float *)calloc(2, sizeof(float));
+    float *rangeY = (float *)calloc(2, sizeof(float));
 
-    // *****************************************************************************
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Bucle de toma de datos por consola
-    // *****************************************************************************
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     while (1)
     {
         printf("Insert N_0: ");
@@ -76,9 +81,9 @@ int main()
         }
     }
 
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Asignación de memorias en array bidimensional de tamaño variable
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     int **initialNucleus = (int **)calloc(scenarios, sizeof(int *));
     if (initialNucleus == NULL)
     {
@@ -140,9 +145,18 @@ int main()
     printf("\n/////////////////////EJERCICIO 1/////////////////////\n");
     printf("\n/////////////////////////////////////////////////////\n");
     printf("\nAnalizando %i casos\n", scenarios);
+
     for (i = 0; i < scenarios; i++)
     {
-        //Actuación sobre cada casuistica
+        printf("\n-------------SIMULANDO CASO %i-------------\n", i);
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Actuación sobre cada casuística
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Cálculo de P(x)
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         simulateFirstStepDisintegrationsMTimes(initialNucleus[i],
                                                disintegrationArray[i],
                                                N_0[i],
@@ -151,23 +165,92 @@ int main()
                                                dt[i],
                                                P_x[i],
                                                M[i]);
-
+        // ******************************************************************
+        // Declaración de variables generales y arrays dinámicos
+        // ******************************************************************
         arrayIterationalDivider(P_x[i], p_x[i], M[i], N_0[i]);
 
-        // printf("\n---------P_x %i-----------\n", i);
-        // print_array_i_1d(P_x[i],N_0[i],1);
-        // printf("\n---------p_x %i-----------\n", i);
-        // print_array_f_1d(p_x[i],N_0[i],1,1);
-
+        // *********************************************************************
+        // Comprobación de que outputPath está accesible
+        // *********************************************************************
         if (checkAndCreateDirectory(outPath) == -1)
         {
             return -1;
         }
-        char filename[50];
-        sprintf(filename, "%s/data_%i.plot", outPath, i);
-        print_array_f_2d_to_file(filename, p_x[i], N_0[i], 1);
+
+        printf("\n-------------EXPORTANDO CASO %i-------------\n", i);
+        // *********************************************************************
+        // Exportar datos de ploteado a outputPath
+        // *********************************************************************
+        char fileName[50];
+        sprintf(fileName, "%s/data_%i.plot", outPath, i);
+
+        print_array_1d_to_file(fileName, p_x[i], N_0[i]);
+
+        // *********************************************************************
+        //  Cálculo de máximos y mínimos en ambos ejes de todas las casuísticas
+        //        para englobar todos los valores en una misma gráfica
+        // *********************************************************************
+        rangosArrayUnidimensional(p_x[i], N_0[i], rangeX, rangeY, 1);
     }
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // Configuración de pipe con GNUPlot para ploteo por pantalla
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    printf("\n-------------GENERANDO GRAFICA-------------\n");
+
+    FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
+    int GNUNumberOfCommands = 6; //Número de mensajes que se enviarán por el pipe
+    int commandLengths[GNUNumberOfCommands];
+    j=0;
+    commandLengths[j++] = 80;
+    commandLengths[j++] = 25;
+    commandLengths[j++] = 25;
+    commandLengths[j++] = 50;
+    commandLengths[j++] = 10;
+
+    for (i = 0; i < scenarios+1; i++)
+    {
+        commandLengths[j]+=100;
+    }
+
+    char **GNUCommands = (char **)calloc(GNUNumberOfCommands, sizeof(char *));
+    for ( i = 0; i < GNUNumberOfCommands; i++)
+    {
+        GNUCommands[i] = (char *)calloc(commandLengths[i], sizeof(char));
+        if (GNUCommands[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+    }
+
+    //Creación de strings con formato
+    j=0;
+    sprintf(GNUCommands[j++], "set title \"Distribución de probabilidad de Poisson con {/Symbol l}=10\"");
+    sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]", rangeX[0], rangeX[1] * 1.2);
+    sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]", rangeY[0], rangeY[1] * 1.2);
+    sprintf(GNUCommands[j++], "set key");
+    sprintf(GNUCommands[j++], "poisson(x, mu) = exp(-mu)*(mu**x)/gamma(x + 1)");
+    sprintf(GNUCommands[j], "plot poisson(x, % i) title \"Teórica\" linecolor rgb \"black\" lw 1", 10);
+
+    for ( i = 0; i < scenarios; i++)
+    {
+        char temp[100]="";
+        sprintf(temp, ",  \"%s/data_%i.plot\" title \"Sim N_0=%i, p=%.2f\" with lines", outPath,i,N_0[i], p_desintegration[i]);
+        strcat(GNUCommands[j], temp);
+    }
+    
+
+    for (i = 0; i < GNUNumberOfCommands; i++)
+    {
+        fprintf(GNUPlotPipe, "%s \n", GNUCommands[i]);
+    }
+
+    pclose(GNUPlotPipe);
+
     free(P_x);
+    free(p_x);
     free(initialNucleus);
     free(disintegrationArray);
     free(N_0);
@@ -175,4 +258,8 @@ int main()
     free(p_desintegration);
     free(dt);
     free(t);
+    free(rangeX);
+    free(rangeY);
+    getchar();
+    getchar();
 }

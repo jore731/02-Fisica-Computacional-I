@@ -129,44 +129,6 @@ void print_array_2d(int *array, int columnas, int filas, int espacio)
     }
 }
 
-void calcular_huecos(int *array, int *huecos, int L_filas)
-{
-    int i = 0, h_act = 0;
-    while (i < L_filas)
-    {
-        if (array[i] == 0)
-        {
-            h_act++;
-        }
-        else
-        {
-            if (h_act != 0)
-            {
-                huecos[h_act]++;
-                // printf("%i, %i\n",i, &array[i] );
-            }
-            h_act = 0;
-        }
-        // printf("%i, %i, %i\n",i,h_act,array[i]);
-        i++;
-    }
-    if (h_act != 0)
-    {
-        huecos[h_act]++;
-    }
-}
-
-void crear_matriz_huecos(int *array, int *huecos, int filas, int columnas)
-{
-    int i = 0;
-    while (i < filas)
-    {
-        inicializar_i_ceros_1d(&huecos[i * columnas / 2], columnas / 2);
-        calcular_huecos(&array[i * columnas], &huecos[i * columnas / 2], columnas);
-        i++;
-    }
-}
-
 void crear_histograma(int *array, float *histograma, int filas, int columnas)
 {
     int i = 0, j = 0;
@@ -193,20 +155,29 @@ void dividir_array(float *array, int columnas, int dividendo)
     }
 }
 
-void escala_histograma(float *array, int columnas, float *max_x, float *max_y)
+void rangosArrayUnidimensional(float *array, int columnas, float *rangeX, float *rangeY, int accumulated)
 {
     int i = 0;
-    *max_x = 0;
-    *max_y = 0;
-    while (i < columnas / 2)
+    if (accumulated == 0)
     {
-        if (array[i] > *max_y)
+        rangeX[0] = 0;
+        rangeX[1] = 0;
+        rangeY[0] = 0;
+        rangeY[1] = 0;
+    }
+    while (i < columnas)
+    {
+        if (array[i] > rangeY[1])
         {
-            *max_y = array[i];
+            rangeY[1] = array[i];
+        }
+        if (array[i] < rangeY[0])
+        {
+            rangeY[0] = array[i];
         }
         if (array[i] > 0)
         {
-            *max_x = i;
+            rangeX[1] = i;
         }
         i++;
     }
@@ -319,7 +290,7 @@ void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int len
 
 int checkAndCreateDirectory(const char *directory)
 {
-    int mkDirDone=0;
+    int mkDirDone = 0;
     while (1)
     {
         DIR *dir = opendir(directory);
@@ -327,10 +298,10 @@ int checkAndCreateDirectory(const char *directory)
         {
             return 0;
         }
-        else if ((ENOENT == errno) && (mkDirDone==0))
+        else if ((ENOENT == errno) && (mkDirDone == 0))
         {
             mkdir(directory);
-            mkDirDone=1;
+            mkDirDone = 1;
         }
         else
         {
@@ -343,7 +314,7 @@ int checkAndCreateDirectory(const char *directory)
                 scanf(" %c", &answer);
                 if (answer == 'd')
                 {
-                    mkDirDone=0;
+                    mkDirDone = 0;
                     break;
                 }
                 else if (answer == 'c')
@@ -353,4 +324,16 @@ int checkAndCreateDirectory(const char *directory)
             }
         }
     }
+}
+
+void print_array_1d_to_file(char *nombre, float *array, int columnas)
+{
+    int i = 0;
+    FILE *output_txt = fopen(nombre, "w");
+    while (i < columnas)
+    {
+        fprintf(output_txt, "%f\n", array[i]);
+        i++;
+    }
+    fclose(output_txt);
 }

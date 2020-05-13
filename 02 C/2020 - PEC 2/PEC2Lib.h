@@ -139,15 +139,11 @@ void print_array_i_1d(int *array, int columnas, int espacio);
  */
 void print_array_2d(int *array, int columnas, int filas, int espacio);
 
-void calcular_huecos(int *array, int *huecos, int L_filas);
-
-void crear_matriz_huecos(int *array, int *huecos, int filas, int columnas);
-
 void crear_histograma(int *array, float *histograma, int filas, int columnas);
 
 void dividir_array(float *array, int columnas, int dividendo);
 
-void escala_histograma(float *array, int columnas, float *max_x, float *max_y);
+void rangosArrayUnidimensional(float *array, int columnas, float *rangeX, float *rangeY, int accumulated);
 
 void print_array_f_2d_to_file(char *nombre, float *array, int columnas, int filas);
 
@@ -160,3 +156,5 @@ void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int len
 void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int length);
 
 int checkAndCreateDirectory(const char *directory);
+
+void print_array_1d_to_file(char *nombre, float *array, int columnas);
