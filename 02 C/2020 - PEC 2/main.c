@@ -27,8 +27,6 @@ int main()
     float *p_desintegration = (float *)calloc(MAX_SCENARIOS, sizeof(float));
     float *dt = (float *)calloc(MAX_SCENARIOS, sizeof(float));
     float *t = (float *)calloc(MAX_SCENARIOS, sizeof(int));
-    float *rangeX = (float *)calloc(2, sizeof(float));
-    float *rangeY = (float *)calloc(2, sizeof(float));
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Bucle de toma de datos por consola
@@ -146,6 +144,9 @@ int main()
     printf("\n/////////////////////////////////////////////////////\n");
     printf("\nAnalizando %i casos\n", scenarios);
 
+    float *rangeX = (float *)calloc(2, sizeof(float));
+    float *rangeY = (float *)calloc(2, sizeof(float));
+    
     for (i = 0; i < scenarios; i++)
     {
         printf("\n-------------SIMULANDO CASO %i-------------\n", i);
@@ -260,6 +261,7 @@ int main()
     free(t);
     free(rangeX);
     free(rangeY);
+    free(GNUCommands);
     getchar();
     getchar();
 }
