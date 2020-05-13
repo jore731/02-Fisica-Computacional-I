@@ -11,3 +11,6 @@
 02 C/2020 - PEC 2/workspace.code-workspace
 02 C/2020 - PEC 2/.vscode/c_cpp_properties.json
 02 C/2020 - PEC 2/.vscode/settings.json
+*.exe
+02 C/2020 - PEC 2/outputFiles/*
+02 C/2019 - PEC 2/histograma.txt
