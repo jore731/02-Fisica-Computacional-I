@@ -155,7 +155,7 @@ void dividir_array(float *array, int columnas, int dividendo)
     }
 }
 
-void rangosArrayUnidimensional(float *array, int columnas, float *rangeX, float *rangeY, int accumulated)
+void rangosArrayUnidimensional_float(float *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step)
 {
     int i = 0;
     if (accumulated == 0)
@@ -177,76 +177,44 @@ void rangosArrayUnidimensional(float *array, int columnas, float *rangeX, float 
         }
         if (array[i] > 0)
         {
-            rangeX[1] = i;
+            if (array[i] > rangeX[1])
+            {
+                rangeX[1] = (float)i * step;
+            }
         }
         i++;
     }
 }
 
-void print_array_f_1d_to_file(char *nombre, float *array, int columnas, FILE *output_txt)
+void rangosArrayUnidimensional_int(int *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step)
 {
     int i = 0;
+    if (accumulated == 0)
+    {
+        rangeX[0] = 0;
+        rangeX[1] = 0;
+        rangeY[0] = 0;
+        rangeY[1] = 0;
+    }
     while (i < columnas)
     {
-        if (i == 0)
+        if ((float)array[i] > rangeY[1])
         {
-            fprintf(output_txt, "%f ", array[i]);
+            rangeY[1] = (float)array[i];
         }
-        else
+        if ((float)array[i] < rangeY[0])
         {
-            fprintf(output_txt, "| %f ", array[i]);
+            rangeY[0] = (float)array[i];
+        }
+        if (array[i] > 0)
+        {
+            if (((float)i * step) > rangeX[1])
+            {
+                rangeX[1] = (float)i * step;
+            }
         }
         i++;
     }
-}
-
-void print_array_f_2d_to_file(char *nombre, float *array, int columnas, int filas)
-{
-    int j = 0;
-    FILE *output_txt = fopen(nombre, "w");
-    while (j < filas)
-    {
-        print_array_f_1d_to_file(nombre, &array[j * columnas], columnas, output_txt);
-        if (j != filas - 1)
-        {
-            fprintf(output_txt, "\n");
-        }
-        j++;
-    }
-    fclose(output_txt);
-}
-
-void print_array_i_1d_to_file(char *nombre, int *array, int columnas, FILE *output_txt)
-{
-    int i = 0;
-    while (i < columnas)
-    {
-        if (i == 0)
-        {
-            fprintf(output_txt, "%i ", array[i]);
-        }
-        else
-        {
-            fprintf(output_txt, "| %i ", array[i]);
-        }
-        i++;
-    }
-}
-
-void print_array_i_2d_to_file(char *nombre, int *array, int columnas, int filas)
-{
-    int j = 0;
-    FILE *output_txt = fopen(nombre, "w");
-    while (j < filas)
-    {
-        print_array_i_1d_to_file(nombre, &array[j * columnas], columnas, output_txt);
-        if (j != filas - 1)
-        {
-            fprintf(output_txt, "\n");
-        }
-        j++;
-    }
-    fclose(output_txt);
 }
 
 int simularDesintegracion(int arrayIn[], int arrayOut[], int length, float p, float *t, float dt)
@@ -264,18 +232,51 @@ int simularDesintegracion(int arrayIn[], int arrayOut[], int length, float p, fl
             }
         }
     }
-    *t = *t + dt;
+    if (dt > 0)
+    {
+        *t = *t + dt;
+    }
     return desintegraciones;
 }
 
-void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, float *t, float dt, int *histogram, int M)
+void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, int *histogram, int M)
 {
     int j;
     for (j = 0; j < M; j++)
     {
-        //ActuaciÃ³n por cada muestra
-        int disintegrations = simularDesintegracion(arrayIn, arrayOut, length, p, t, dt);
+        //Actuación por cada muestra
+        int disintegrations = simularDesintegracion(arrayIn, arrayOut, length, p, 0, 0);
         histogram[disintegrations]++;
+    }
+}
+
+void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float * disintegrationTime)
+{
+    int totalDisintegrations = length, i = 0;
+    float totalTime = 0;
+    while (totalDisintegrations > 0 || i < steps)
+    {
+        if (i < steps)
+        {
+            totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
+            t[i] = totalTime;
+            disintegrations[i]=totalDisintegrations;
+            
+        }
+        else
+        {
+            totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
+            printf("\nLoosing data due to small max time!!\n\n");
+        }
+        i++;
+        if (totalDisintegrations <=length/2 && disintegrationTime[0] == 0)
+        {
+            disintegrationTime[0] = totalTime;
+        }
+        if (totalDisintegrations == 0 && disintegrationTime[1] == 0)
+        {
+            disintegrationTime[1] = totalTime;
+        }
     }
 }
 
@@ -326,7 +327,19 @@ int checkAndCreateDirectory(const char *directory)
     }
 }
 
-void print_array_1d_to_file(char *nombre, float *array, int columnas)
+void print_array_2d_to_file_float_int(char *nombre, float *col1, int *col2, int columnas)
+{
+    int i = 0;
+    FILE *output_txt = fopen(nombre, "w");
+    while (i < columnas)
+    {
+        fprintf(output_txt, "%f %i\n", col1[i], col2[i]);
+        i++;
+    }
+    fclose(output_txt);
+}
+
+void print_array_1d_to_file_float(char *nombre, float *array, int columnas)
 {
     int i = 0;
     FILE *output_txt = fopen(nombre, "w");
@@ -336,4 +349,46 @@ void print_array_1d_to_file(char *nombre, float *array, int columnas)
         i++;
     }
     fclose(output_txt);
+}
+
+void print_array_1d_to_file_int(char *nombre, int *array, int columnas)
+{
+    int i = 0;
+    FILE *output_txt = fopen(nombre, "w");
+    while (i < columnas)
+    {
+        fprintf(output_txt, "%i\n", array[i]);
+        i++;
+    }
+    fclose(output_txt);
+}
+
+float inputParameter(char name[], int iterator, float defaultValue)
+{
+    if (name[0] != ' ')
+    {
+        if (iterator == -1)
+        {
+            printf("Insert %s (default = %f): ", name, defaultValue);
+        }
+        else
+        {
+            printf("Insert %s[%i] (default = %f): ", name, iterator, defaultValue);
+        }
+    }
+    int i = 0;
+    char buffer[10] = "";
+    float returnVal = 0;
+    while ((buffer[i++] = getchar()) != '\n')
+    {
+    }
+    if (buffer[0] == '\n')
+    {
+        returnVal = defaultValue;
+    }
+    else
+    {
+        sscanf(buffer, "%f", &returnVal);
+    }
+    return returnVal;
 }

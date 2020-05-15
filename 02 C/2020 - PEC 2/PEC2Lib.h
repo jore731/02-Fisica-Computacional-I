@@ -5,8 +5,10 @@
 #ifndef INC_2020___PEC_2_PEC2LIB_H
 #define INC_2020___PEC_2_PEC2LIB_H
 
-#include <stdio.h>
 #endif
+
+#include <stdio.h>
+
 /**
  * Inicializa a cero todas las posiciones de un array del tipo ``int[]`` unidimensional.
  * 
@@ -56,12 +58,12 @@ void inicializar_i_unos_1d(int *array, int L_filas);
 void inicializar_f_unos_1d(float *array, int L_filas);
 
 /**
- * Genera un nÃºmero comprendido aleatorio comprendido entre 0 y 1
+ * Genera un número comprendido aleatorio comprendido entre 0 y 1
  * 
  * Return
  * ------
  * float
- *      NÃºmero aleatorio comprendido entre 0 y 1.
+ *      Número aleatorio comprendido entre 0 y 1.
  */
 float randomProbability();
 
@@ -119,9 +121,9 @@ void print_array_i_1d(int *array, int columnas, int espacio);
  * *array: int[]
  *      Array a imprimir.
  * columnas: int
- *      NÃºmero de campos por fila.
+ *      Número de campos por fila.
  * filas: int
- *      NÃºmero de filas.
+ *      Número de filas.
  * espacio: bool
  *      Modifica el formato de salida de los datos.
  * 
@@ -143,18 +145,24 @@ void crear_histograma(int *array, float *histograma, int filas, int columnas);
 
 void dividir_array(float *array, int columnas, int dividendo);
 
-void rangosArrayUnidimensional(float *array, int columnas, float *rangeX, float *rangeY, int accumulated);
+void rangosArrayUnidimensional_float(float *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step);
 
-void print_array_f_2d_to_file(char *nombre, float *array, int columnas, int filas);
-
-void print_array_i_2d_to_file(char *nombre, int *array, int columnas, int filas);
+void rangosArrayUnidimensional_int(int *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step);
 
 int simularDesintegracion(int *arrayIn, int *arrayOut, int length, float p, float *t, float dt);
 
-void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, float *t, float dt, int *histogram, int M);
+void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, int *histogram, int M);
+
+void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime);
 
 void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int length);
 
 int checkAndCreateDirectory(const char *directory);
 
-void print_array_1d_to_file(char *nombre, float *array, int columnas);
+void print_array_2d_to_file_float_int(char *nombre, float *col1, int *col2, int columnas);
+
+void print_array_1d_to_file_float(char *nombre, float *array, int columnas);
+
+void print_array_1d_to_file_int(char *nombre, int *array, int columnas);
+
+float inputParameter(char name[], int iterator, float defaultValue);
