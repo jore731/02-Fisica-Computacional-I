@@ -54,9 +54,24 @@
             }
         },
         {
+            "label": "Build and show pdf",
+            "type": "shell",
+            "command": ".\\pec2-c.pdf",
+            "options": {
+                "cwd": "${workspaceFolder}/docs/build/latex/"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": ["Make latexpdf","Show pdf"]
+        },
+        {
             "label": "compile C",
             "type": "shell",
-            "command": "gcc -std=c99 -o build\\main main.c PEC2Lib.c PEC2Lib.h ",
+            "command": "gcc -std=c99 -o build\\main main.c PEC2Lib.c PEC2Lib.h ejercicio1.c ejercicio1.h ejercicio2.c ejercicio2.h",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
