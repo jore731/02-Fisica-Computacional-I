@@ -19,12 +19,12 @@ cautodoc_clang = "-DHAWKMOTH"
 
 # -- Project information -----------------------------------------------------
 
-project = 'PEC2-C'
+project = 'PEC2 - C: Procesos de Poisson y desintegración radiactiva'
 copyright = '2020, Jorge Pulido López'
 author = 'Jorge Pulido López'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = ''
 
 
 # -- General configuration ---------------------------------------------------
