@@ -4,4 +4,4 @@
 
 #endif
 
-int ejercicio2(const char outPath[]);
+int ejercicio3(const char outPath[]);

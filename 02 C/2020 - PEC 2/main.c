@@ -8,8 +8,8 @@
 #include "PEC2Lib.h"
 #include "ejercicio1.h"
 #include "ejercicio2.h"
-// #include "ejercicio3.h"
-// #include "ejercicio4.h"
+#include "ejercicio3.h"
+#include "ejercicio4.h"
 
 //Default path for ouput data files
 const char outPath[40] = "outputFiles";
@@ -29,11 +29,11 @@ int main()
             printf("\njpulido147@alumno.uned.es\n");
             printf("\n\n\n");
             printf("\nPorfavor, seleccione uno de los siguientes ejercicios:\n");
-            printf("\n0: exit\n\n");
-            printf("\n1: Comprobacion de la distribucion de Poisson aplicada a la primera etapa del proceso de desintegracion del cobalto 60.\n\n");
-            printf("\n2: Comprobacion de la ley de decaimiento exponencial aplicada al proceso de desintegracion completo del cobalto 60.\n\n");
-            printf("\n3: \n\n");
-            printf("\n4: \n\n");
+            printf("\n    0: exit\n\n");
+            printf("\n    1: Comprobacion de la distribucion de Poisson aplicada a la primera etapa del proceso de desintegracion del cobalto 60.\n\n");
+            printf("\n    2: Comprobacion de la ley de decaimiento exponencial aplicada al proceso de desintegracion completo del cobalto 60.\n\n");
+            printf("\n    3: \n\n");
+            printf("\n    4: \n\n");
             printf("\n0, 1, 2, 3, 4 (default 0) >> ");
             scanf("%i", &answer);
             getchar();
@@ -47,12 +47,17 @@ int main()
             ejercicio2(outPath);
             break;
         case 3:
+            ejercicio3(outPath);
             break;
         case 4:
+            ejercicio4(outPath);
             break;
         default:
             break;
         }
+        printf("\nPress enter to go back to main menu.\n");
+        getchar();
+        system("cls");
     } while (answer != 0);
     return 0;
 }

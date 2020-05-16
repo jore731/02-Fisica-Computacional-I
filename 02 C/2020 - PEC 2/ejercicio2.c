@@ -16,7 +16,7 @@ int ejercicio2(const char outPath[])
 {
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Declaración de variables generales y arrays dinámicos
+    // Declaraciï¿½n de variables generales y arrays dinï¿½micos
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     /** Number of scenarios to be analyzed*/
@@ -37,7 +37,7 @@ int ejercicio2(const char outPath[])
     // Default values for p_desintegration
     float defaultp[4] = {0.5, 0.1, 0.01, 0.001};
 
-    // Default values for M
+    // Default values for lambda_0
     float defaultlambda_0[4] = {0.13, 0.13, 0.13, 0.13};
 
     printf("\n/////////////////////////////////////////////////////\n");
@@ -72,14 +72,14 @@ int ejercicio2(const char outPath[])
         {
             N_0[scenarios] = (int)inputParameter("N_0", scenarios, defaultN_0[scenarios]);
             p_desintegration[scenarios] = inputParameter("p_desintegration", scenarios, defaultp[scenarios]);
-            lambda_0[scenarios] = inputParameter("M", scenarios, defaultlambda_0[scenarios]);
+            lambda_0[scenarios] = inputParameter("lambda_0", scenarios, defaultlambda_0[scenarios]);
         }
         else
         {
-            //En caso de que queramos añadir más casos de los especificados en el enunciado
+            //En caso de que queramos aï¿½adir mï¿½s casos de los especificados en el enunciado
             N_0[scenarios] = (int)inputParameter("N_0", scenarios, 0);
             p_desintegration[scenarios] = inputParameter("p_desintegration", scenarios, 0);
-            lambda_0[scenarios] = inputParameter("M", scenarios, 0);
+            lambda_0[scenarios] = inputParameter("lambda_0", scenarios, 0);
         }
         dt[scenarios] = p_desintegration[scenarios] / lambda_0[scenarios];
         steps[scenarios] = (int)((float)maxTime / (dt[scenarios]));
@@ -95,7 +95,7 @@ int ejercicio2(const char outPath[])
     }
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Asignación de memorias en array bidimensional de tamaño variable
+    // Asignaciï¿½n de memorias en array bidimensional de tamaï¿½o variable
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     int **disintegrationArray = (int **)calloc(scenarios, sizeof(int *));
     if (disintegrationArray == NULL)
@@ -122,7 +122,7 @@ int ejercicio2(const char outPath[])
         exit(1);
     }
 
-    // Bucle de asignación de memorias para cada fila del array bidimensional
+    // Bucle de asignaciï¿½n de memorias para cada fila del array bidimensional
     for (i = 0; i < scenarios; i++)
     {
         disintegrationArray[i] = (int *)calloc(N_0[i], sizeof(int));
@@ -154,14 +154,14 @@ int ejercicio2(const char outPath[])
     printf("\nAnalizando %i casos\n", scenarios);
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Bucle de actuación sobre cada casuística
+    // Bucle de actuaciï¿½n sobre cada casuï¿½stica
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     for (i = 0; i < scenarios; i++)
     {
         printf("\n-------------SIMULANDO CASO %i-------------\n", i);
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Cálculo de P(x)
+        // Cï¿½lculo de P(x)
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         simulateFullDisintegration(disintegrationArray[i],
                                    disintegrationArray[i],
@@ -176,7 +176,7 @@ int ejercicio2(const char outPath[])
         printf("\nDesintegracion completada en :%f years\n", totalTime[i][1]);
 
         // *********************************************************************
-        // Comprobación de que outputPath está accesible
+        // Comprobaciï¿½n de que outputPath estï¿½ accesible
         // *********************************************************************
         if (checkAndCreateDirectory(outPath) == -1)
         {
@@ -194,14 +194,14 @@ int ejercicio2(const char outPath[])
 
         printf("\n------CALCULANDO LIMITES DE GRAFICA-----\n");
         // *********************************************************************
-        //  Cálculo de máximos y mínimos en ambos ejes de todas las casuísticas
-        //        para englobar todos los valores en una misma gráfica
+        //  Cï¿½lculo de mï¿½ximos y mï¿½nimos en ambos ejes de todas las casuï¿½sticas
+        //        para englobar todos los valores en una misma grï¿½fica
         // *********************************************************************
         rangosArrayUnidimensional_int(disintegrations[i], steps[i], rangeX, rangeY, 1, dt[i]);
     }
 
     // *************************************************************************
-    // Verificación de valores por defecto para añadir recta teórica
+    // Verificaciï¿½n de valores por defecto para aï¿½adir recta teï¿½rica
     // *************************************************************************
     printf("\n------VERIFICANDO UNIFORMIDAD DE DATOS-----\n");
 
@@ -217,13 +217,13 @@ int ejercicio2(const char outPath[])
     }
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Configuración de pipe con GNUPlot para ploteo por pantalla
+    // Configuraciï¿½n de pipe con GNUPlot para ploteo por pantalla
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     printf("\n-------------GENERANDO GRAFICA-------------\n");
 
     FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
     FILE *GNUPlotPipe2 = popen("GNUplot -persist", "w");
-    int GNUNumberOfCommands = 6; //Número de mensajes que se enviarán por el pipe
+    int GNUNumberOfCommands = 6; //Nï¿½mero de mensajes que se enviarï¿½n por el pipe
     int commandLengths[GNUNumberOfCommands];
     j = 0;
     commandLengths[j++] = 80;
@@ -248,36 +248,36 @@ int ejercicio2(const char outPath[])
         }
     }
 
-    //Creación de strings con formato
+    //Creaciï¿½n de strings con formato
     j = 0;
     if (theoreticalLambda_0 > 0)
     {
-        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegración para N_0 = %i  con {/Symbol l}_0 =%.3f\"", theoreticalN_0, theoreticalLambda_0);
+        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegraciï¿½n N(t) para N_0 = %i  con {/Symbol l}_0 =%.3f\"", theoreticalN_0, theoreticalLambda_0);
     }
     else
     {
-        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegración");
+        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegraciï¿½n N(t)");
     }
-    sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]", rangeX[0], rangeX[1] * 1.2);
-    sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]", rangeY[0], rangeY[1] * 1.2);
+    sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"t (years)\"", rangeX[0], rangeX[1] * 1.2);
+    sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"N\"", rangeY[0], rangeY[1] * 1.2);
     sprintf(GNUCommands[j++], "set key");
     sprintf(GNUCommands[j++], "theoretical(x, N_0,mu) = N_0*exp(-mu*x)");
     if (theoreticalLambda_0 > 0)
     {
-        sprintf(GNUCommands[j], "plot theoretical(x, %i, %f) title \"Teórica\" linecolor rgb \"black\" lw 1", theoreticalN_0, theoreticalLambda_0);
+        sprintf(GNUCommands[j], "plot theoretical(x, %i, %f) title \"Teï¿½rica\" linecolor rgb \"black\" lw 1", theoreticalN_0, theoreticalLambda_0);
         i = 0;
     }
     else
     {
         i = 0;
-        sprintf(GNUCommands[j], "plot  \"%s/data2_%i.plot\" using 1 : 2 with lines title \"Sim p=%.3f\"", outPath, i, p_desintegration[i]);
+        sprintf(GNUCommands[j], "plot  \"%s/data2_%i.plot\" using 1 : 2 with lines title \"Sim p=%.3f, {/Symbol l}_0 =%.3f\"", outPath, i, p_desintegration[i], lambda_0[i]);
         i++;
     }
 
     for (i = i; i < scenarios; i++)
     {
         char temp[100] = "";
-        sprintf(temp, ", \"%s/data2_%i.plot\" using 1 : 2 with lines title \"Sim p=%.3f\"", outPath, i, p_desintegration[i]);
+        sprintf(temp, ", \"%s/data2_%i.plot\" using 1 : 2 with lines title \"Sim p=%.3f, {/Symbol l}_0 =%.3f\"", outPath, i, p_desintegration[i], lambda_0[i]);
         strcat(GNUCommands[j], temp);
     }
 
@@ -286,8 +286,8 @@ int ejercicio2(const char outPath[])
         fprintf(GNUPlotPipe, "%s \n", GNUCommands[i]);
     }
 
-    sprintf(GNUCommands[1], "set xrange [50:%.2f]", rangeX[1] * 1.2);
-    sprintf(GNUCommands[2], "set autoscale y");
+    sprintf(GNUCommands[1], "set xrange [50:%.2f]\n set xlabel \"t (years)\"", rangeX[1] * 1.2);
+    sprintf(GNUCommands[2], "set autoscale y\n set ylabel \"N\"");
     for (i = 0; i < GNUNumberOfCommands; i++)
     {
         fprintf(GNUPlotPipe2, "%s \n", GNUCommands[i]);
@@ -308,6 +308,5 @@ int ejercicio2(const char outPath[])
     free(t);
     free(disintegrations);
     free(GNUCommands);
-    getchar();
     return 0;
 }

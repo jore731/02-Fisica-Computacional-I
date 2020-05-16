@@ -161,8 +161,14 @@ int checkAndCreateDirectory(const char *directory);
 
 void print_array_2d_to_file_float_int(char *nombre, float *col1, int *col2, int columnas);
 
+void print_array_2d_to_file_float_float(char *nombre, float *col1, float *col2, int columnas, int skippingStep);
+
 void print_array_1d_to_file_float(char *nombre, float *array, int columnas);
 
 void print_array_1d_to_file_int(char *nombre, int *array, int columnas);
 
 float inputParameter(char name[], int iterator, float defaultValue);
+
+void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps, int M, float *disintegrationTimes);
+
+void simulateMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M,int l, float *disintegrationTimes);

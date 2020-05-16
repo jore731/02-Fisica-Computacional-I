@@ -177,7 +177,7 @@ void rangosArrayUnidimensional_float(float *array, int columnas, float *rangeX, 
         }
         if (array[i] > 0)
         {
-            if (array[i] > rangeX[1])
+            if (((float)i * step) > rangeX[1])
             {
                 rangeX[1] = (float)i * step;
             }
@@ -244,32 +244,31 @@ void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int len
     int j;
     for (j = 0; j < M; j++)
     {
-        //Actuación por cada muestra
+        //Actuaciï¿½n por cada muestra
         int disintegrations = simularDesintegracion(arrayIn, arrayOut, length, p, 0, 0);
         histogram[disintegrations]++;
     }
 }
 
-void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float * disintegrationTime)
+void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime)
 {
     int totalDisintegrations = length, i = 0;
     float totalTime = 0;
     while (totalDisintegrations > 0 || i < steps)
     {
-        if (i < steps)
+        if (i <= steps)
         {
             totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
             t[i] = totalTime;
-            disintegrations[i]=totalDisintegrations;
-            
+            disintegrations[i] = totalDisintegrations;
         }
         else
         {
             totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
-            printf("\nLoosing data due to small max time!!\n\n");
+            //printf("\nLoosing data due to small max time, still %i nucleous remaining!!\n\n", totalDisintegrations);
         }
         i++;
-        if (totalDisintegrations <=length/2 && disintegrationTime[0] == 0)
+        if (totalDisintegrations <= length / 2 && disintegrationTime[0] == 0)
         {
             disintegrationTime[0] = totalTime;
         }
@@ -339,6 +338,21 @@ void print_array_2d_to_file_float_int(char *nombre, float *col1, int *col2, int 
     fclose(output_txt);
 }
 
+void print_array_2d_to_file_float_float(char *nombre, float *col1, float *col2, int columnas, int skippingStep)
+{
+    int i = 0;
+    FILE *output_txt = fopen(nombre, "w");
+    while (i < columnas)
+    {
+        if (i % skippingStep == 0)
+        {
+            fprintf(output_txt, "%f %f\n", col1[i], col2[i]);
+        }
+        i++;
+    }
+    fclose(output_txt);
+}
+
 void print_array_1d_to_file_float(char *nombre, float *array, int columnas)
 {
     int i = 0;
@@ -391,4 +405,135 @@ float inputParameter(char name[], int iterator, float defaultValue)
         sscanf(buffer, "%f", &returnVal);
     }
     return returnVal;
+}
+
+void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps, int M, float *disintegrationTimes)
+{
+    int i, j;
+    int **disintegrations = (int **)calloc(steps, sizeof(int *));
+    if (disintegrations == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    float **disintegrationTimes_temp = (float **)calloc(M, sizeof(float *));
+    if (disintegrationTimes_temp == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    int **disintegrationArray = (int **)calloc(M, sizeof(int *));
+    if (disintegrationArray == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    for (i = 0; i < M; i++)
+    {
+        disintegrationArray[i] = (int *)calloc(length, sizeof(int));
+        if (disintegrationArray[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+        disintegrationTimes_temp[i] = (float *)calloc(2, sizeof(float));
+        if (disintegrationTimes_temp[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+        disintegrations[i] = (int *)calloc(steps, sizeof(int));
+        if (disintegrations[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+    }
+    float disintegrationTime = 0, semidisintegrationTime = 0;
+    for (i = 0; i < M; i++)
+    {
+        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, disintegrations[i], t, dt, steps, disintegrationTimes_temp[i]);
+        semidisintegrationTime += disintegrationTimes_temp[i][0];
+        disintegrationTime += disintegrationTimes_temp[i][1];
+    }
+    disintegrationTimes[0] = (float)(semidisintegrationTime / M);
+    disintegrationTimes[1] = (float)(disintegrationTime / M);
+    for (j = 0; j < steps; j++)
+    {
+        long temp = 0;
+        for (i = 0; i < M; i++)
+        {
+            temp += disintegrations[i][j];
+        }
+        F_t[j] += ((float)length - (float)(temp / M)) / (float)length;
+    }
+    free(disintegrationTimes_temp);
+    free(disintegrations);
+}
+
+void simulateMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M, int l, float *disintegrationTimes)
+{
+    int i, j;
+    int **disintegrations = (int **)calloc(steps, sizeof(int *));
+    if (disintegrations == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    float **disintegrationTimes_temp = (float **)calloc(M, sizeof(float *));
+    if (disintegrationTimes_temp == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    int **disintegrationArray = (int **)calloc(M, sizeof(int *));
+    if (disintegrationArray == NULL)
+    {
+        printf("No se ha podido asignar el espacio de memoria\n");
+        exit(1);
+    }
+    for (i = 0; i < M; i++)
+    {
+        disintegrationArray[i] = (int *)calloc(length, sizeof(int));
+        if (disintegrationArray[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+        disintegrationTimes_temp[i] = (float *)calloc(2, sizeof(float));
+        if (disintegrationTimes_temp[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+        disintegrations[i] = (int *)calloc(steps, sizeof(int));
+        if (disintegrations[i] == NULL)
+        {
+            printf("No se ha podido asignar el espacio de memoria\n");
+            exit(1);
+        }
+    }
+    float disintegrationTime = 0, semidisintegrationTime = 0;
+    for (i = 0; i < M; i++)
+    {
+        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, disintegrations[i], t, dt, steps, disintegrationTimes_temp[i]);
+        semidisintegrationTime += disintegrationTimes_temp[i][0];
+        disintegrationTime += disintegrationTimes_temp[i][1];
+    }
+    disintegrationTimes[0] = (float)(semidisintegrationTime / M);
+    disintegrationTimes[1] = (float)(disintegrationTime / M);
+    for (j = 0; j + l < steps; j++)
+    {
+        float temp = 0;
+        for (i = 0; i < M; i++)
+        {
+            if (disintegrations[i][j] > 0)
+            {
+                temp += (float)(disintegrations[i][j + l] / disintegrations[i][j]);
+            }
+        }
+        markov[j] += (float)(temp / M);
+    }
+    free(disintegrationTimes_temp);
+    free(disintegrations);
 }

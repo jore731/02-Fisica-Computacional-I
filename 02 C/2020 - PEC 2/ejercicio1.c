@@ -260,8 +260,8 @@ int ejercicio1(const char outPath[])
     {
     sprintf(GNUCommands[j++], "set title \"Distribución de probabilidad de Poisson");
     }
-    sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]", rangeX[0], rangeX[1] * 1.2);
-    sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]", rangeY[0], rangeY[1] * 1.2);
+    sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"Desintegraciones\"", rangeX[0], rangeX[1] * 1.2);
+    sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"p\"", rangeY[0], rangeY[1] * 1.2);
     sprintf(GNUCommands[j++], "set key");
     sprintf(GNUCommands[j++], "poisson(x, mu) = exp(-mu)*(mu**x)/gamma(x + 1)");
     if (lambda>0){
@@ -297,6 +297,5 @@ int ejercicio1(const char outPath[])
     free(rangeX);
     free(rangeY);
     free(GNUCommands);
-    getchar();
     return 0;
 }
