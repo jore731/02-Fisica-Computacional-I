@@ -71,7 +71,7 @@
         {
             "label": "compile C",
             "type": "shell",
-            "command": "gcc -std=c99 -o build\\main main.c PEC2Lib.c PEC2Lib.h ejercicio1.c ejercicio1.h ejercicio2.c ejercicio2.h",
+            "command": "gcc -std=c99 -o build\\main main.c PEC2Lib.c PEC2Lib.h ejercicio1.c ejercicio1.h ejercicio2.c ejercicio2.h ejercicio3.c ejercicio3.h ejercicio4.c ejercicio4.h",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
