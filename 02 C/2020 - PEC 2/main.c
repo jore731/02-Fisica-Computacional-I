@@ -16,6 +16,8 @@ const char outPath[40] = "outputFiles";
 
 int main()
 {
+    system("mode 650");
+
     int answer = 0;
     do
     {
@@ -41,15 +43,19 @@ int main()
         switch (answer)
         {
         case 1:
+            system("cls");
             ejercicio1(outPath);
             break;
         case 2:
+            system("cls");
             ejercicio2(outPath);
             break;
         case 3:
+            system("cls");
             ejercicio3(outPath);
             break;
         case 4:
+            system("cls");
             ejercicio4(outPath);
             break;
         default:

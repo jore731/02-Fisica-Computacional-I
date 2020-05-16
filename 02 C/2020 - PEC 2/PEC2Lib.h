@@ -153,7 +153,7 @@ int simularDesintegracion(int *arrayIn, int *arrayOut, int length, float p, floa
 
 void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, int *histogram, int M);
 
-void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime);
+void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime, float *accumulated, int accumulate);
 
 void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int length);
 

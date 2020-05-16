@@ -250,22 +250,24 @@ void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int len
     }
 }
 
-void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime)
+void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime, float *accumulated, int accumulate)
 {
     int totalDisintegrations = length, i = 0;
     float totalTime = 0;
     while (totalDisintegrations > 0 || i < steps)
     {
+        totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
         if (i <= steps)
         {
-            totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
             t[i] = totalTime;
-            disintegrations[i] = totalDisintegrations;
-        }
-        else
-        {
-            totalDisintegrations -= simularDesintegracion(arrayIn, arrayOut, length, p, &totalTime, dt);
-            //printf("\nLoosing data due to small max time, still %i nucleous remaining!!\n\n", totalDisintegrations);
+            if (accumulate == 1)
+            {
+                accumulated[i] += totalDisintegrations;
+            }
+            else
+            {
+                disintegrations[i] = totalDisintegrations;
+            }
         }
         i++;
         if (totalDisintegrations <= length / 2 && disintegrationTime[0] == 0)
@@ -452,7 +454,7 @@ void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps,
     float disintegrationTime = 0, semidisintegrationTime = 0;
     for (i = 0; i < M; i++)
     {
-        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, disintegrations[i], t, dt, steps, disintegrationTimes_temp[i]);
+        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, disintegrations[i], t, dt, steps, disintegrationTimes_temp[i], NULL, 0);
         semidisintegrationTime += disintegrationTimes_temp[i][0];
         disintegrationTime += disintegrationTimes_temp[i][1];
     }
@@ -474,8 +476,8 @@ void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps,
 void simulateMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M, int l, float *disintegrationTimes)
 {
     int i, j;
-    int **disintegrations = (int **)calloc(steps, sizeof(int *));
-    if (disintegrations == NULL)
+    float *accumulated = (float *)calloc(steps, sizeof(float));
+    if (accumulated == NULL)
     {
         printf("No se ha podido asignar el espacio de memoria\n");
         exit(1);
@@ -506,17 +508,11 @@ void simulateMarkov(float *markov, float *t, int length, float p, float dt, int 
             printf("No se ha podido asignar el espacio de memoria\n");
             exit(1);
         }
-        disintegrations[i] = (int *)calloc(steps, sizeof(int));
-        if (disintegrations[i] == NULL)
-        {
-            printf("No se ha podido asignar el espacio de memoria\n");
-            exit(1);
-        }
     }
     float disintegrationTime = 0, semidisintegrationTime = 0;
     for (i = 0; i < M; i++)
     {
-        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, disintegrations[i], t, dt, steps, disintegrationTimes_temp[i]);
+        simulateFullDisintegration(disintegrationArray[i], disintegrationArray[i], length, p, NULL, t, dt, steps, disintegrationTimes_temp[i], accumulated, 1);
         semidisintegrationTime += disintegrationTimes_temp[i][0];
         disintegrationTime += disintegrationTimes_temp[i][1];
     }
@@ -524,16 +520,7 @@ void simulateMarkov(float *markov, float *t, int length, float p, float dt, int 
     disintegrationTimes[1] = (float)(disintegrationTime / M);
     for (j = 0; j + l < steps; j++)
     {
-        float temp = 0;
-        for (i = 0; i < M; i++)
-        {
-            if (disintegrations[i][j] > 0)
-            {
-                temp += (float)(disintegrations[i][j + l] / disintegrations[i][j]);
-            }
-        }
-        markov[j] += (float)(temp / M);
+        markov[j]= (float)(accumulated[j + l] / accumulated[j]);
     }
     free(disintegrationTimes_temp);
-    free(disintegrations);
 }

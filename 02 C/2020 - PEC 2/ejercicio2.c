@@ -171,7 +171,9 @@ int ejercicio2(const char outPath[])
                                    t[i],
                                    dt[i],
                                    steps[i],
-                                   totalTime[i]);
+                                   totalTime[i], 
+                                   NULL,
+                                   0);
         printf("\nSemidesintegracion completada en :%f years\n", totalTime[i][0]);
         printf("\nDesintegracion completada en :%f years\n", totalTime[i][1]);
 
