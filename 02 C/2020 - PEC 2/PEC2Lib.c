@@ -1,6 +1,12 @@
 //
 // Created by Jorge Pulido on 09/05/2020.
 //
+//TODO Comentar
+//TODO checkear liberacion de memorio
+//TODO limpiar
+//TODO documentar
+//TODO Eliminar funciones no usadas
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -244,7 +250,7 @@ void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int len
     int j;
     for (j = 0; j < M; j++)
     {
-        //Actuaci�n por cada muestra
+        //Actuación por cada muestra
         int disintegrations = simularDesintegracion(arrayIn, arrayOut, length, p, 0, 0);
         histogram[disintegrations]++;
     }
@@ -473,7 +479,7 @@ void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps,
     free(disintegrations);
 }
 
-void simulateMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M, int l, float *disintegrationTimes)
+void checkMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M, int l, float *disintegrationTimes)
 {
     int i, j;
     float *accumulated = (float *)calloc(steps, sizeof(float));

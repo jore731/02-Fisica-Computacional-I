@@ -1,6 +1,11 @@
 //
 // Created by Jorge Pulido on 09/05/2020.
 //
+//TODO Comentar
+//TODO checkear liberacion de memorio
+//TODO limpiar
+//TODO documentar
+//TODO Eliminar funciones no usadas
 
 #ifndef INC_2020___PEC_2_PEC2LIB_H
 #define INC_2020___PEC_2_PEC2LIB_H
@@ -58,12 +63,12 @@ void inicializar_i_unos_1d(int *array, int L_filas);
 void inicializar_f_unos_1d(float *array, int L_filas);
 
 /**
- * Genera un número comprendido aleatorio comprendido entre 0 y 1
+ * Genera un nÃºmero comprendido aleatorio comprendido entre 0 y 1
  * 
  * Return
  * ------
  * float
- *      Número aleatorio comprendido entre 0 y 1.
+ *      NÃºmero aleatorio comprendido entre 0 y 1.
  */
 float randomProbability();
 
@@ -121,9 +126,9 @@ void print_array_i_1d(int *array, int columnas, int espacio);
  * *array: int[]
  *      Array a imprimir.
  * columnas: int
- *      Número de campos por fila.
+ *      NÃºmero de campos por fila.
  * filas: int
- *      Número de filas.
+ *      NÃºmero de filas.
  * espacio: bool
  *      Modifica el formato de salida de los datos.
  * 
@@ -149,6 +154,7 @@ void rangosArrayUnidimensional_float(float *array, int columnas, float *rangeX, 
 
 void rangosArrayUnidimensional_int(int *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step);
 
+/** example*/
 int simularDesintegracion(int *arrayIn, int *arrayOut, int length, float p, float *t, float dt);
 
 void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int length, float p, int *histogram, int M);
@@ -171,4 +177,4 @@ float inputParameter(char name[], int iterator, float defaultValue);
 
 void simulateF_t(float *F_t, float *t, int length, float p, float dt, int steps, int M, float *disintegrationTimes);
 
-void simulateMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M,int l, float *disintegrationTimes);
+void checkMarkov(float *markov, float *t, int length, float p, float dt, int steps, int M, int l, float *disintegrationTimes);

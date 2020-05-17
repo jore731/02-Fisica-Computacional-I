@@ -11,15 +11,19 @@
 
 #include "PEC2Lib.h"
 
-/** Ejercicio2 */
 int ejercicio2(const char outPath[])
 {
 
+    printf("\n/////////////////////////////////////////////////////\n");
+    printf("\n/////////////////////EJERCICIO 2/////////////////////\n");
+    printf("\n/////////////////////////////////////////////////////\n");
+    printf("\nComprobacion de la ley de decaimiento exponencial aplicada al proceso de desintegracion completo del cobalto 60.\n\n\n");
+
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Declaraci�n de variables generales y arrays din�micos
+    // Variables declaration and input data
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    /** Number of scenarios to be analyzed*/
+    // Number of scenarios to be analyzed
     int scenarios = 0;
 
     // Generic iterator
@@ -40,31 +44,33 @@ int ejercicio2(const char outPath[])
     // Default values for lambda_0
     float defaultlambda_0[4] = {0.13, 0.13, 0.13, 0.13};
 
-    printf("\n/////////////////////////////////////////////////////\n");
-    printf("\n/////////////////////EJERCICIO 2/////////////////////\n");
-    printf("\n/////////////////////////////////////////////////////\n");
-
+    // Input maxScenarios from console
     int maxScenarios = (int)inputParameter("maxScenarios", -1, 4);
 
+    // Input maxTime to be represented ( not simulated)
     int maxTime = (int)inputParameter("maxTime", -1, 80);
+
+    printf("\n\n");
 
     // Dynamic array contaning initial amount of nuceleous of each scenario
     int *N_0 = (int *)calloc(maxScenarios, sizeof(int));
 
-    // Dynamic array contaning the iterations to be simulated for each scenario
+    // Dynamic array contaning the threshold value for p to be used in simulation
+    // for each scenario
     float *p_desintegration = (float *)calloc(maxScenarios, sizeof(float));
 
-    // Dynamic array contaning the iterations to be simulated for each scenario
+    // Dynamic array contaning the lambda_0 value to be used in simulation
+    // for each scenario
     float *lambda_0 = (float *)calloc(maxScenarios, sizeof(float));
 
-    // Dynamic array contaning initial amount of nuceleous of each scenario
+    // Dynamic array contaning the number of steps to be represented for each scenario
     int *steps = (int *)calloc(maxScenarios, sizeof(int));
 
-    // Dynamic array contaning initial amount of nuceleous of each scenario
+    // Dynamic array contaning the dt of each step on each scenario
     float *dt = (float *)calloc(maxScenarios, sizeof(float));
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Bucle de toma de datos por consola
+    // Console input data loop for adding scenarios
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     while (1)
     {
@@ -76,11 +82,13 @@ int ejercicio2(const char outPath[])
         }
         else
         {
-            //En caso de que queramos a�adir m�s casos de los especificados en el enunciado
+            //Non default scenarios
             N_0[scenarios] = (int)inputParameter("N_0", scenarios, 0);
             p_desintegration[scenarios] = inputParameter("p_desintegration", scenarios, 0);
             lambda_0[scenarios] = inputParameter("lambda_0", scenarios, 0);
         }
+        printf("\n\n");
+        // Dependent parameters
         dt[scenarios] = p_desintegration[scenarios] / lambda_0[scenarios];
         steps[scenarios] = (int)((float)maxTime / (dt[scenarios]));
         scenarios += 1;
@@ -95,26 +103,35 @@ int ejercicio2(const char outPath[])
     }
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Asignaci�n de memorias en array bidimensional de tama�o variable
+    //          Dyncamic arrays declaration and initialization depending on
+    //                      the scenarios to be simulated
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    // 2D array that will hold the nucleous information during the simulation for each scenario
     int **disintegrationArray = (int **)calloc(scenarios, sizeof(int *));
     if (disintegrationArray == NULL)
     {
         printf("No se ha podido asignar el espacio de memoria\n");
         exit(1);
     }
+
+    // 2D array that will hold the values of t on each step during the simulation for each scenario
     float **t = (float **)calloc(scenarios, sizeof(float *));
     if (t == NULL)
     {
         printf("No se ha podido asignar el espacio de memoria\n");
         exit(1);
     }
+
+    // 2D array that will hold the semidisintegration and disintegration times for each scenario
     float **totalTime = (float **)calloc(scenarios, sizeof(float *));
     if (totalTime == NULL)
     {
         printf("No se ha podido asignar el espacio de memoria\n");
         exit(1);
     }
+
+    // 2D array that will hold the number of remaining nucleous during the simulation for each scenario
     int **disintegrations = (int **)calloc(scenarios, sizeof(int *));
     if (disintegrations == NULL)
     {
@@ -122,7 +139,7 @@ int ejercicio2(const char outPath[])
         exit(1);
     }
 
-    // Bucle de asignaci�n de memorias para cada fila del array bidimensional
+    // Bidimensional array rows initizalization
     for (i = 0; i < scenarios; i++)
     {
         disintegrationArray[i] = (int *)calloc(N_0[i], sizeof(int));
@@ -153,15 +170,16 @@ int ejercicio2(const char outPath[])
 
     printf("\nAnalizando %i casos\n", scenarios);
 
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Bucle de actuaci�n sobre cada casu�stica
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     for (i = 0; i < scenarios; i++)
     {
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Data processing loop for each scenario
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
         printf("\n-------------SIMULANDO CASO %i-------------\n", i);
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // C�lculo de P(x)
+        // Full disintegration simulation
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         simulateFullDisintegration(disintegrationArray[i],
                                    disintegrationArray[i],
@@ -171,41 +189,45 @@ int ejercicio2(const char outPath[])
                                    t[i],
                                    dt[i],
                                    steps[i],
-                                   totalTime[i], 
+                                   totalTime[i],
                                    NULL,
                                    0);
+
         printf("\nSemidesintegracion completada en :%f years\n", totalTime[i][0]);
         printf("\nDesintegracion completada en :%f years\n", totalTime[i][1]);
 
         // *********************************************************************
-        // Comprobaci�n de que outputPath est� accesible
+        // Check if outpath is available
         // *********************************************************************
+
         if (checkAndCreateDirectory(outPath) == -1)
         {
             return -1;
         }
 
         printf("\n-------------EXPORTANDO CASO %i-------------\n", i);
+
         // *********************************************************************
-        // Exportar datos de ploteado a outputPath
+        // Data export (GNUPlot input file created)
         // *********************************************************************
+
+        // Output file name (and path if applies)
         char fileName[50];
         sprintf(fileName, "%s/data2_%i.plot", outPath, i);
 
         print_array_2d_to_file_float_int(fileName, t[i], disintegrations[i], steps[i]);
 
-        printf("\n------CALCULANDO LIMITES DE GRAFICA-----\n");
         // *********************************************************************
-        //  C�lculo de m�ximos y m�nimos en ambos ejes de todas las casu�sticas
-        //        para englobar todos los valores en una misma gr�fica
+        //  Plotting ranges calculation
         // *********************************************************************
+
         rangosArrayUnidimensional_int(disintegrations[i], steps[i], rangeX, rangeY, 1, dt[i]);
     }
 
     // *************************************************************************
-    // Verificaci�n de valores por defecto para a�adir recta te�rica
+    //                   Checking theoretical curve viability
+    //          (Only if N_0 and lambda_0 are equal for every scenario)
     // *************************************************************************
-    printf("\n------VERIFICANDO UNIFORMIDAD DE DATOS-----\n");
 
     int theoreticalN_0 = N_0[0];
     float theoreticalLambda_0 = lambda_0[0];
@@ -218,14 +240,22 @@ int ejercicio2(const char outPath[])
         }
     }
 
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // Configuraci�n de pipe con GNUPlot para ploteo por pantalla
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // *************************************************************************
+    // GNUPlot configuration
+    // *************************************************************************
+
     printf("\n-------------GENERANDO GRAFICA-------------\n");
 
+    // Pipe1 to communicate with GNUPlot
     FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
+
+    // Pipe2 to communicate with GNUPlot
     FILE *GNUPlotPipe2 = popen("GNUplot -persist", "w");
-    int GNUNumberOfCommands = 6; //N�mero de mensajes que se enviar�n por el pipe
+
+    //Messages to be sent throught the pipe
+    int GNUNumberOfCommands = 6;
+
+    // Array to define each messages length (Hard coded since it shouldnt change)
     int commandLengths[GNUNumberOfCommands];
     j = 0;
     commandLengths[j++] = 80;
@@ -239,6 +269,7 @@ int ejercicio2(const char outPath[])
         commandLengths[j] += 100;
     }
 
+    // Array of strings of with size defined by commandLengths
     char **GNUCommands = (char **)calloc(GNUNumberOfCommands, sizeof(char *));
     for (i = 0; i < GNUNumberOfCommands; i++)
     {
@@ -250,23 +281,25 @@ int ejercicio2(const char outPath[])
         }
     }
 
-    //Creaci�n de strings con formato
+    // GNU Commands definition.
     j = 0;
     if (theoreticalLambda_0 > 0)
     {
-        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegraci�n N(t) para N_0 = %i  con {/Symbol l}_0 =%.3f\"", theoreticalN_0, theoreticalLambda_0);
+        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegración N(t) para N_0 = %i  con {/Symbol l}_0 =%.3f\"", theoreticalN_0, theoreticalLambda_0);
     }
     else
     {
-        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegraci�n N(t)");
+        sprintf(GNUCommands[j++], "set title \"Curva(s) de desintegración N(t)");
     }
     sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"t (years)\"", rangeX[0], rangeX[1] * 1.2);
     sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"N\"", rangeY[0], rangeY[1] * 1.2);
     sprintf(GNUCommands[j++], "set key");
     sprintf(GNUCommands[j++], "theoretical(x, N_0,mu) = N_0*exp(-mu*x)");
+
+    // If there is a common theoretical curve
     if (theoreticalLambda_0 > 0)
     {
-        sprintf(GNUCommands[j], "plot theoretical(x, %i, %f) title \"Te�rica\" linecolor rgb \"black\" lw 1", theoreticalN_0, theoreticalLambda_0);
+        sprintf(GNUCommands[j], "plot theoretical(x, %i, %f) title \"Teórica\" linecolor rgb \"black\" lw 1", theoreticalN_0, theoreticalLambda_0);
         i = 0;
     }
     else
@@ -283,21 +316,28 @@ int ejercicio2(const char outPath[])
         strcat(GNUCommands[j], temp);
     }
 
+    //Execution of GNUPlot commands
     for (i = 0; i < GNUNumberOfCommands; i++)
     {
         fprintf(GNUPlotPipe, "%s \n", GNUCommands[i]);
     }
 
+    // Closes the pipe after GNUPlot is closed.
+    pclose(GNUPlotPipe);
+
     sprintf(GNUCommands[1], "set xrange [50:%.2f]\n set xlabel \"t (years)\"", rangeX[1] * 1.2);
     sprintf(GNUCommands[2], "set autoscale y\n set ylabel \"N\"");
+
+    //Execution of GNUPlot commands
     for (i = 0; i < GNUNumberOfCommands; i++)
     {
         fprintf(GNUPlotPipe2, "%s \n", GNUCommands[i]);
     }
 
-
-    pclose(GNUPlotPipe);
+    // Closes the pipe after GNUPlot is closed.
     pclose(GNUPlotPipe2);
+
+    // Freeing up memory after the simulation and plotting is done. (Could be better to do it right after stopping to use each variable)
     free(rangeX);
     free(rangeY);
     free(N_0);
@@ -305,10 +345,11 @@ int ejercicio2(const char outPath[])
     free(lambda_0);
     free(steps);
     free(dt);
-    free(totalTime);
     free(disintegrationArray);
     free(t);
+    free(totalTime);
     free(disintegrations);
     free(GNUCommands);
+
     return 0;
 }

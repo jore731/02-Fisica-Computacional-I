@@ -1,4 +1,8 @@
+.. raw:: latex
+
+    \clearpage
+
 Ejercicio 2
 =========================================================
 
-.. c:autodoc:: ejercicio2.c
+.. c:autodoc:: ejercicio2.h

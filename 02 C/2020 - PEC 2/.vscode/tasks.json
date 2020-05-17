@@ -43,7 +43,7 @@
         {
             "label": "Show pdf",
             "type": "shell",
-            "command": ".\\pec2-c.pdf",
+            "command": ".\\pec2-cprocesosdepoissonydesintegracinradiactiva.pdf",
             "options": {
                 "cwd": "${workspaceFolder}/docs/build/latex/"
             },
@@ -56,7 +56,7 @@
         {
             "label": "Build and show pdf",
             "type": "shell",
-            "command": ".\\pec2-c.pdf",
+            "command": ".\\pec2-cprocesosdepoissonydesintegracinradiactiva.pdf",
             "options": {
                 "cwd": "${workspaceFolder}/docs/build/latex/"
             },
