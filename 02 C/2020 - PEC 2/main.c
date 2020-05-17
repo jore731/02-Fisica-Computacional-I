@@ -1,10 +1,6 @@
 //
 // Created by Jorge Pulido on 09/05/2020.
 //
-//TODO Comentar
-//TODO checkear liberacion de memorio
-//TODO limpiar
-//TODO documentar
 
 #include <stdio.h>
 #include <stdlib.h>
