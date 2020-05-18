@@ -73,7 +73,14 @@
  * 
  * Que se correspondría con los ejemplos de simulación del bloque anterior.
  * 
- * Para poder asemejar dicho histograma a una distribución de Poisson, necesitaremos transformar estos datos a probabilidades entre 0 y 1, para así poder compararlos con la curva teórica. Para ello, utilizaremos :c:func::`arrayIterationalDivider` que nos convertirá los datos acumulados en datos ponderados con respecto al número de simulaciones M.
+ * Para poder asemejar dicho histograma a una distribución de Poisson, necesitaremos transformar estos datos a probabilidades entre 0 y 1, para así poder compararlos con la curva teórica:
+ * 
+ * .. math::
+ *      :label: Distribución de probabilidad de Poisson.
+ * 
+ *      f(x)=\frac{\lambda^{x}}{x !} e^{-\lambda}
+ * 
+ * Para ello, utilizaremos :c:func:`arrayIterationalDivider` que nos convertirá los datos acumulados en datos ponderados con respecto al número de simulaciones M.
  * 
  * Una vez obtenido el array del histograma ponderado, utilizaremos GNUPlot para graficar los datos obtenidos en los escenarios analizados así como la curva teórica que definirá el comportamiento de los mismos.
  * 

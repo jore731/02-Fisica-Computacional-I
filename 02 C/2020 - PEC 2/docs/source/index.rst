@@ -5,9 +5,11 @@
 
 PEC2 - C: Procesos de Poisson y desintegración radiactiva
 =========================================================
-Para el desarrollo de la siguiente memoria y mejor integración con las referencias al código en C, se utlizará la librería ``Sphinx 3.0.3`` [1]_ así como un módulo de documentación en C, ``Hawkmoth 0.5`` [2]_ para la propia librería. Todo ello ejecutado sobre ``Python 3.7.6`` [3]_ .
+Para el desarrollo de la siguiente memoria y mejor integración con las referencias al código en C, se utilizará la librería ``Sphinx 3.0.3`` [1]_ así como un módulo de documentación en C, ``Hawkmoth 0.5`` [2]_ para la propia librería. Todo ello ejecutado sobre ``Python 3.7.6`` [3]_ .
 
 Para el desarrollo del contenido de la misma, se utilizará el código documentado en las siguientes páginas. Se trata de una archivo ejecutable en C compilado mediante el compilador ``gcc 4.9.2`` [4]_ así como la comunicación mediante pipes con ``GNUplot 5.2`` [5]_ para la graficación de los resultados.
+
+Esta documentación estará disponible tanto en formato PDF como en formato HTML (`index.html`) a libre elección del lector.
 
 .. toctree::
    :maxdepth: 4

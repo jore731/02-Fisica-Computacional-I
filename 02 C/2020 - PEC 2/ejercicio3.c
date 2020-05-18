@@ -261,9 +261,9 @@ int ejercicio3(const char outPath[])
 
         // GNU Commands definition.
         j = 0;
-        sprintf(GNUCommands[j++], "set title \"Tiempo transcurrido entre desintegraciones para {/Symbol l}_0 =%.3f\"", lambda_0[i]);
+        sprintf(GNUCommands[j++], "set title \"Distribución proporcional de desintegraciones acumuladas para {/Symbol l}_0 =%.3f\"", lambda_0[i]);
         sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"t (years)\"", rangeX[0], rangeX[1] * 1.2);
-        sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"prob(X {/Symbol \243} t)\"", rangeY[0], rangeY[1] * 1.2);
+        sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \" (N_0 - N)/N_0\"", rangeY[0], rangeY[1] * 1.2);
         sprintf(GNUCommands[j++], "set key right bottom");
         sprintf(GNUCommands[j++], "theoretical(x, mu) = 1-exp(-mu*x)");
         sprintf(GNUCommands[j], "plot theoretical(x, %f) title \"Teórica\" linecolor rgb \"black\" lw 1", lambda_0[i]);

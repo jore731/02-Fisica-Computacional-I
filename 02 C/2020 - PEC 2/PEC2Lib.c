@@ -1,12 +1,6 @@
 //
 // Created by Jorge Pulido on 09/05/2020.
 //
-//TODO Comentar
-//TODO checkear liberacion de memorio
-//TODO limpiar
-//TODO documentar
-//TODO Eliminar funciones no usadas
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,149 +10,9 @@
 
 #include "PEC2Lib.h"
 
-void inicializar_i_ceros_1d(int *array, int L_filas)
-{
-    int i = 0;
-    while (i < L_filas)
-    {
-        array[i] = 0;
-        i++;
-    }
-}
-
-void inicializar_f_ceros_1d(float *array, int L_filas)
-{
-    int i = 0;
-    while (i < L_filas)
-    {
-        array[i] = 0;
-        i++;
-    }
-}
-
-void inicializar_i_unos_1d(int *array, int L_filas)
-{
-    int i = 0;
-    while (i < L_filas)
-    {
-        array[i] = 1;
-        i++;
-    }
-}
-
-void inicializar_f_unos_1d(float *array, int L_filas)
-{
-    int i = 0;
-    while (i < L_filas)
-    {
-        array[i] = 1;
-        i++;
-    }
-}
-
 float randomProbability()
 {
     return rand() / (double)RAND_MAX;
-}
-
-void print_array_f_1d(float *array, int columnas, int espacio, int printfloat)
-{
-    int i = 0;
-    while (i < columnas)
-    {
-        if (espacio == 0)
-        {
-            if (printfloat == 0)
-            {
-                printf("%.0f", array[i]);
-            }
-            else
-            {
-                printf("%.4f", array[i]);
-            }
-        }
-        else
-        {
-            if (printfloat == 0)
-            {
-                printf("%.0f |", array[i]);
-            }
-            else
-            {
-                printf("%.4f |", array[i]);
-            }
-        }
-        i++;
-    }
-}
-
-void print_array_i_1d(int *array, int columnas, int espacio)
-{
-    int i = 0;
-    int *ptr = array;
-    while (i < columnas)
-    {
-        if (espacio == 0)
-        {
-            //            printf("%i", array[i]);
-            printf("%i ", *ptr);
-            ptr++;
-        }
-        else
-        {
-            printf("%i |", array[i]);
-        }
-        i++;
-    }
-}
-
-void print_array_2d(int *array, int columnas, int filas, int espacio)
-{
-    int i = 0, j = 0;
-    while (i < filas)
-    {
-        while (j < columnas)
-        {
-            if (espacio == 1)
-            {
-                printf("%i |", array[i * columnas + j]);
-            }
-            else
-            {
-                printf("%i", array[i * columnas + j]);
-            }
-            j++;
-        }
-        printf("\n");
-        i++;
-        j = 0;
-    }
-}
-
-void crear_histograma(int *array, float *histograma, int filas, int columnas)
-{
-    int i = 0, j = 0;
-    inicializar_f_ceros_1d(histograma, columnas);
-    while (i < filas)
-    {
-        while (j < columnas)
-        {
-            histograma[j] = histograma[j] + array[i * columnas + j];
-            j++;
-        }
-        j = 0;
-        i++;
-    }
-}
-
-void dividir_array(float *array, int columnas, int dividendo)
-{
-    int j = 0;
-    while (j < columnas)
-    {
-        array[j] = array[j] / dividendo;
-        j++;
-    }
 }
 
 void rangosArrayUnidimensional_float(float *array, int columnas, float *rangeX, float *rangeY, int accumulated, float step)
@@ -255,6 +109,7 @@ void simulateFirstStepDisintegrationsMTimes(int *arrayIn, int *arrayOut, int len
         histogram[disintegrations]++;
     }
 }
+
 
 void simulateFullDisintegration(int *arrayIn, int *arrayOut, int length, float p, int *disintegrations, float *t, float dt, int steps, float *disintegrationTime, float *accumulated, int accumulate)
 {

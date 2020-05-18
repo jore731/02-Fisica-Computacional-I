@@ -266,7 +266,7 @@ int ejercicio4(const char outPath[])
 
         // GNU Commands definition.
         j = 0;
-        sprintf(GNUCommands[j++], "set title \"Tendencia Markoviana para {/Symbol l}_0 =%.3f,{/Symbol D} t = %f\"", lambda_0[i], Dt[i]);
+        sprintf(GNUCommands[j++], "set title \"Probabilidad de no-desintegración de un núcleo activo para {/Symbol l}_0 =%.3f,{/Symbol D} t = %f\"", lambda_0[i], Dt[i]);
         sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"t (years)\"", rangeX[0], rangeX[1] * 1.2);
         sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"prob(X>t+{/Symbol D} t | X>t)\"", rangeY[0], rangeY[1] * 1.2);
         sprintf(GNUCommands[j++], "set key left bottom");
