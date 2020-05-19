@@ -237,7 +237,7 @@ int ejercicio1(const char outPath[])
     printf("\n-------------GENERANDO GRAFICA-------------\n");
 
     // Pipe to communicate with GNUPlot
-    FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
+    FILE *GNUPlotPipe = popen("gnuplot -persist", "w");
 
     //Messages to be sent throught the pipe
     int GNUNumberOfCommands = 6; 
@@ -245,11 +245,11 @@ int ejercicio1(const char outPath[])
     // Array to define each messages length (Hard coded since it shouldnt change)
     int commandLengths[GNUNumberOfCommands];
     j = 0;
-    commandLengths[j++] = 80;
-    commandLengths[j++] = 25;
-    commandLengths[j++] = 25;
+    commandLengths[j++] = 100;
+    commandLengths[j++] = 100;
+    commandLengths[j++] = 100;
     commandLengths[j++] = 50;
-    commandLengths[j++] = 10;
+    commandLengths[j++] = 50;
 
     for (i = 0; i < scenarios + 1; i++)
     {
@@ -276,7 +276,7 @@ int ejercicio1(const char outPath[])
     }
     else
     {
-        sprintf(GNUCommands[j++], "set title \"Distribución de probabilidad de Poisson");
+        sprintf(GNUCommands[j++], "set title \"Distribución de probabilidad de Poisson\"");
     }
     sprintf(GNUCommands[j++], "set xrange [%.2f:%.2f]\n set xlabel \"Desintegraciones\"", rangeX[0], rangeX[1] * 1.2);
     sprintf(GNUCommands[j++], "set yrange [%.2f:%.2f]\n set ylabel \"p\"", rangeY[0], rangeY[1] * 1.2);

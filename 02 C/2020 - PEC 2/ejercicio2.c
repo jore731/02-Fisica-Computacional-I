@@ -247,10 +247,10 @@ int ejercicio2(const char outPath[])
     printf("\n-------------GENERANDO GRAFICA-------------\n");
 
     // Pipe1 to communicate with GNUPlot
-    FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
+    FILE *GNUPlotPipe = popen("gnuplot -persist", "w");
 
     // Pipe2 to communicate with GNUPlot
-    FILE *GNUPlotPipe2 = popen("GNUplot -persist", "w");
+    FILE *GNUPlotPipe2 = popen("gnuplot -persist", "w");
 
     //Messages to be sent throught the pipe
     int GNUNumberOfCommands = 6;
@@ -258,11 +258,11 @@ int ejercicio2(const char outPath[])
     // Array to define each messages length (Hard coded since it shouldnt change)
     int commandLengths[GNUNumberOfCommands];
     j = 0;
-    commandLengths[j++] = 80;
-    commandLengths[j++] = 25;
-    commandLengths[j++] = 25;
+    commandLengths[j++] = 100;
+    commandLengths[j++] = 100;
+    commandLengths[j++] = 100;
     commandLengths[j++] = 50;
-    commandLengths[j++] = 10;
+    commandLengths[j++] = 50;
 
     for (i = 0; i < scenarios + 1; i++)
     {

@@ -187,7 +187,7 @@ int ejercicio4(const char outPath[])
 
         printf("\n-------------SIMULANDO CASO %i-------------\n", i);
 
-        printf("\nAtención! Este proceso puede durar unos minutos, espere a que la gráfica sea generada.\n", i);
+        printf("\nAtención! Este proceso puede durar unos minutos, espere a que la gráfica sea generada.\n");
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // Markovian verification
@@ -237,7 +237,7 @@ int ejercicio4(const char outPath[])
         printf("\n-------------GENERANDO GRAFICA-------------\n");
 
         // Pipe1 to communicate with GNUPlot
-        FILE *GNUPlotPipe = popen("GNUplot -persist", "w");
+        FILE *GNUPlotPipe = popen("gnuplot -persist", "w");
 
         //Messages to be sent throught the pipe
         int GNUNumberOfCommands = 6;
@@ -245,12 +245,12 @@ int ejercicio4(const char outPath[])
         // Array to define each messages length (Hard coded since it shouldnt change)
         int commandLengths[GNUNumberOfCommands];
         j = 0;
-        commandLengths[j++] = 80;
-        commandLengths[j++] = 25;
-        commandLengths[j++] = 25;
-        commandLengths[j++] = 50;
-        commandLengths[j++] = 10;
         commandLengths[j++] = 200;
+        commandLengths[j++] = 100;
+        commandLengths[j++] = 100;
+        commandLengths[j++] = 100;
+        commandLengths[j++] = 100;
+        commandLengths[j++] = 300;
 
         // Array of strings of with size defined by commandLengths
         char **GNUCommands = (char **)calloc(GNUNumberOfCommands, sizeof(char *));

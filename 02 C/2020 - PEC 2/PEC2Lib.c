@@ -153,7 +153,6 @@ void arrayIterationalDivider(int *arrayIn, float *arrayOut, int divider, int len
 
 int checkAndCreateDirectory(const char *directory)
 {
-    int mkDirDone = 0;
     while (1)
     {
         DIR *dir = opendir(directory);
@@ -161,14 +160,9 @@ int checkAndCreateDirectory(const char *directory)
         {
             return 0;
         }
-        else if ((ENOENT == errno) && (mkDirDone == 0))
-        {
-            mkdir(directory);
-            mkDirDone = 1;
-        }
         else
         {
-            printf("\nERROR: COULD NOT CREATE OUTPUT DIRECTORY.\nPlease create %s directory manually\n");
+            printf("\nERROR: COULD NOT CREATE OUTPUT DIRECTORY.\nPlease create %s directory manually\n",directory);
             char answer = ' ';
             while (1)
             {
@@ -177,7 +171,6 @@ int checkAndCreateDirectory(const char *directory)
                 scanf(" %c", &answer);
                 if (answer == 'd')
                 {
-                    mkDirDone = 0;
                     break;
                 }
                 else if (answer == 'c')

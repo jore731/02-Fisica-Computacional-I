@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "PEC2Lib.h"
 #include "ejercicio1.h"
@@ -49,19 +50,19 @@ int main()
         switch (answer)
         {
         case 1:
-            system("cls");
+            system("clear");
             ejercicio1(outPath);
             break;
         case 2:
-            system("cls");
+            system("clear");
             ejercicio2(outPath);
             break;
         case 3:
-            system("cls");
+            system("clear");
             ejercicio3(outPath);
             break;
         case 4:
-            system("cls");
+            system("clear");
             ejercicio4(outPath);
             break;
         default:
@@ -69,7 +70,7 @@ int main()
         }
         printf("\nPress enter to go back to main menu.\n");
         getchar();
-        system("cls");
+        system("clear");
     } while (answer != 0);
     return 0;
 }
