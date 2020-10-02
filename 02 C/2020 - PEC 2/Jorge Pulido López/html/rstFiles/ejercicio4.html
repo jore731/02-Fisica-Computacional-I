@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ejercicio 4 &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="PEC2Lib" href="PEC2Lib.html" />
+    <link rel="prev" title="Ejercicio 3" href="ejercicio3.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ejercicios.html">Ejercicios</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ejercicio1.html">Ejercicio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio2.html">Ejercicio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio3.html">Ejercicio 3</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ejercicio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEC2Lib.html">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ejercicios.html">Ejercicios</a> &raquo;</li>
+        
+      <li>Ejercicio 4</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/ejercicio4.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ejercicio-4">
+<h1>Ejercicio 4<a class="headerlink" href="#ejercicio-4" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="c function">
+<dt>
+<code class="sig-name descname">int ejercicio4(const char [] outPath)</code></dt>
+<dd><dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>outPath: string</dt><dd><p>Directorio a utilizar para la salida de los archivos de datos de las diversas simulaciones. Comprobado y/o creado mediante <a class="reference internal" href="PEC2Lib.html#c.checkAndCreateDirectory" title="checkAndCreateDirectory"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkAndCreateDirectory()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Durante la ejecución del código del ejercicio 4, se procederá a la simulación de la desintegración completa de M conjuntos de N_0 núcleos activos de Cobalto 60. Mediante esta simulación, podremos comprobar la <cite>markovianidad</cite> de este suceso, es decir, que el proceso de desintegración de núcleos radioactivos no tiene memoria. Para ello, hemos de justificar que la probabilidad de desintegración de un núcleo radioactivo no depende de estados previos, sino del estado presente. Para ello, calcularemos la probabilidad que tiene un núcleo no desintegrado en el estado <cite>j</cite>, de no haberse desintegrado tras un tiempo <span class="math notranslate nohighlight">\(\Delta t\)</span> , es decir, en un estado <span class="math notranslate nohighlight">\(j+\Delta t\)</span>, para todos los estados del proceso de desintegración. Para ello, aplicaremos la siguiente ecuación:</p>
+<div class="math notranslate nohighlight" id="equation-probabilidad-de-no-desintegracion-de-un-nucleo-activo-tras-l-etapas-de-desintegracion">
+<span class="eqno">(1)<a class="headerlink" href="#equation-probabilidad-de-no-desintegracion-de-un-nucleo-activo-tras-l-etapas-de-desintegracion" title="Enlace permanente a esta ecuación">¶</a></span>\[\operatorname{prob}(X&gt;t+\Delta t | X&gt;t)=\left\langle\frac{N(j+l)}{N(j)}\right\rangle_{N}\]</div>
+<p>En este caso, al tratarse de una simulación, utilizaremos, como venimos haciendo en los ejercicios anteriores, un valor <span class="math notranslate nohighlight">\(d t\)</span> constante para cada etapa de desintegración, de forma que <span class="math notranslate nohighlight">\(t=j\times d t\)</span>, y por lo tanto, utilizaremos el paso <cite>l</cite>, almacenado en el array unidimensional <cite>plottingStep[]</cite> para calcular la diferencia de tiempo entre el estado en el que el núcleo no está desintegrado <span class="math notranslate nohighlight">\(\Delta t=l \times d t\)</span>, y el estado para el que queremos calcular que la desintegración siga sin producirse.</p>
+<p>Cabe destacar que este suceso será el que rija el comportamiento individual de cada uno de los núcleos activos para cada una de las etapas de la desintegración, a diferencia de los <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio1()</span></code>, <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio2()</span></code>, y <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio3()</span></code>, en los que se analizaba el comportamiento como conjunto de núcleos activos.</p>
+<p>Una vez calculados los resultados con ayuda de la <a class="reference internal" href="PEC2Lib.html#c.checkMarkov" title="checkMarkov"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkMarkov()</span></code></a>, comprobaremos que su comportamiento se rige por la siguiente ecuación:</p>
+<div class="math notranslate nohighlight" id="equation-recta-de-probabilidad-de-no-desintegracion-de-un-nucleo-activo-tras-l-etapas-de-desintegracion">
+<span class="eqno">(2)<a class="headerlink" href="#equation-recta-de-probabilidad-de-no-desintegracion-de-un-nucleo-activo-tras-l-etapas-de-desintegracion" title="Enlace permanente a esta ecuación">¶</a></span>\[e^{-\lambda_{0} \Delta t}\]</div>
+<p>En el código de este ejercicio se facilita la opción de realizar una simulación parametrizada mediante:</p>
+<blockquote>
+<div><dl>
+<dt>maxScenarios: int</dt><dd><p>Número de escenarios distintos que se analizarán.</p>
+</dd>
+<dt>maxTime: int</dt><dd><p>De cara a la representación gráfica de los resultados, se da la posibilidad de ampliar o reducir el límite de tiempo a representar en dichas gráficas, pudiéndose así focalizar en las zonas deseadas de la misma. Una vez introducido este parámetro, las entradas del archivo de datos generado se verán alteradas así como su correspondiente representación. (Aplica a todos los casos en conjunto)</p>
+</dd>
+<dt>N_0: int[]</dt><dd><p>Cantidad inicial de núcleos a desintegrar. (Por caso estudiado)</p>
+</dd>
+<dt>p_disintegration: float[]</dt><dd><p>Probabilidad de desintegración de cada núcleo en cada paso del proceso. (Por caso estudiado)</p>
+</dd>
+<dt>plottingStep: int[]</dt><dd><p>Paso a utilizar a la hora de exportar los datos. Cuando <cite>plottingStep &gt; 1</cite>, se representarán exclusivamente aquellos pasos de la desintegración múltiplos de <cite>plottingStep</cite>. En este caso, <cite>plottingStep</cite> también definirá <span class="math notranslate nohighlight">\(\Delta t\)</span>, por lo que la simulación y los resultados dependerán de este parámetro. A pesar de ello, las gráficas producidas solo se deberán ver afectadas por la cantidad de datos representados.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plottingStep</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-&gt;</span>  <span class="n">dataSimulated</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">dataRepresented</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span>
+</pre></div>
+</div>
+</dd>
+<dt>lambda_0: float[]</dt><dd><p>Parámetro característico del los núcleos a simular (Cobalto 60 : 0.13), que describe el comportamiento de dichos núcleos en función del tiempo. (Por caso estudiado)</p>
+</dd>
+<dt>M: int[]</dt><dd><p>Ciclos de repetición de la simulación para la ponderación de los resultados. (Por caso estudiado)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>En este caso, nos ceñiremos a la simulación de los casos planteados en la PEC, que constan de los siguientes datos:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">130</span><span class="p">,,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">130</span><span class="p">,,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Para cada una de las casuísticas planteadas, se realizará el siguiente proceso:</p>
+<p>Basándonos en la metodología del <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio3()</span></code>, y con ayuda de la función <a class="reference internal" href="PEC2Lib.html#c.checkMarkov" title="checkMarkov"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkMarkov()</span></code></a> realizaremos la simulación de desintegración completa del conjunto M veces, almacenando los datos en un array bidimensional temporal, para posteriormente ponderar el número de núcleos activos para cada una de las etapas del periodo de desintegración, generando un array unidimensional ponderado que utilizaremos para aplicar la ecuación <a class="reference internal" href="#equation-probabilidad-de-no-desintegracion-de-un-nucleo-activo-tras-l-etapas-de-desintegracion">(1)</a>, generando así el array unidimensional  <cite>markov[]</cite> que contendrá la probabilidad de no-desintegración para cada una de las etapas del proceso. También producirá un array <cite>t[]</cite> que contendrá la base de tiempos para cada una de las etapas.</p>
+<p>Así mismo, esta función devolverá los tiempos de desintegración y semidesintegración del conjunto, esta vez ponderados, que podremos comparar posteriormente con los resultados teóricos del Cobalto60.</p>
+<p>Una vez obtenidos estos resultados, utilizaremos GNUPlot para graficar los datos obtenidos en los escenarios analizados así como la recta teórica que definirá el comportamiento de los mismos. En este caso, dada la similitud de los resultados de los casos a analizar en esta PEC, utilizaremos una gráfica para cada una de las simulaciones para facilitar su visualización. Por lo que serán los parámetros característicos de cada una de los datos simulados los que definan el comportamiento de la recta teórica, pudiendo obtener varias rectas teóricas diferentes en cada uno de los escenarios.</p>
+<p>Como podemos comprobar en las siguientes figuras, los datos obtenidos en la simulación se corresponden con la recta teórica y su precisión mejora a medida que incrementa el número de simulaciones (<cite>M</cite>), como ya mencionamos en el <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio2()</span></code>. Podemos por lo tanto concluir que el suceso de desintegración de un núcleo es markoviano, puesto que su probabilidad de desintegración en un periodo de tiempo <span class="math notranslate nohighlight">\(\Delta t\)</span> dependerá exclusivamente de su estado actual y de dicho <span class="math notranslate nohighlight">\(\Delta t\)</span>, sin importar el estado anterior.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/ejercicio4_resultados_1.png" src="../_images/ejercicio4_resultados_1.png" />
+<p class="caption"><span class="caption-text">Probabilidad de no-desintegración de un núcleo activo de Cobalto60 tras un periodo <span class="math notranslate nohighlight">\(\Delta t \approx 1\)</span>  (M = 10).</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<div class="figure align-center" id="id2">
+<img alt="../_images/ejercicio4_resultados_2.png" src="../_images/ejercicio4_resultados_2.png" />
+<p class="caption"><span class="caption-text">Probabilidad de no-desintegración de un núcleo activo de Cobalto60 tras un periodo <span class="math notranslate nohighlight">\(\Delta t \approx 1\)</span>  (M = 100).</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<div class="figure align-center" id="id3">
+<img alt="../_images/ejercicio4_resultados_3.png" src="../_images/ejercicio4_resultados_3.png" />
+<p class="caption"><span class="caption-text">Probabilidad de no-desintegración de un núcleo activo de Cobalto60 tras un periodo <span class="math notranslate nohighlight">\(\Delta t \approx 1\)</span> (M = 1000).</span><a class="headerlink" href="#id3" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Como podemos comprobar, la recta teórica se cumple para todo <cite>t</cite> pero es a causa de la aleatoriedad en sucesos avanzados en <cite>t</cite> y la falta de muestreo de los mismos lo que hace que, para M=10 y M=100, los resultados simulados, diverjan de lo esperado.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PEC2Lib.html" class="btn btn-neutral float-right" title="PEC2Lib" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ejercicio3.html" class="btn btn-neutral float-left" title="Ejercicio 3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

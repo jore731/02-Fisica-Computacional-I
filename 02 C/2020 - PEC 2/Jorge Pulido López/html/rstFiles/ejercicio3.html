@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ejercicio 3 &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Ejercicio 4" href="ejercicio4.html" />
+    <link rel="prev" title="Ejercicio 2" href="ejercicio2.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ejercicios.html">Ejercicios</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ejercicio1.html">Ejercicio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio2.html">Ejercicio 2</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ejercicio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio4.html">Ejercicio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEC2Lib.html">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ejercicios.html">Ejercicios</a> &raquo;</li>
+        
+      <li>Ejercicio 3</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/ejercicio3.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ejercicio-3">
+<h1>Ejercicio 3<a class="headerlink" href="#ejercicio-3" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="c function">
+<dt>
+<code class="sig-name descname">int ejercicio3(const char [] outPath)</code></dt>
+<dd><dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>outPath: string</dt><dd><p>Directorio a utilizar para la salida de los archivos de datos de las diversas simulaciones. Comprobado y/o creado mediante <a class="reference internal" href="PEC2Lib.html#c.checkAndCreateDirectory" title="checkAndCreateDirectory"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkAndCreateDirectory()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Durante la ejecución del código del ejercicio 3, se procederá a la simulación de la desintegración completa de M conjuntos de N_0 núcleos activos de Cobalto 60. Mediante esta simulación, podremos comprobar el comportamiento estadístico de la diferencia de tiempo entre sucesos a lo largo del proceso de desintegración. Para ello, simularemos M procesos de desintegración, calculando esta vez la distribución acumulada de desintegraciones:</p>
+<div class="math notranslate nohighlight" id="equation-distribucion-acumulada-de-desintegraciones">
+<span class="eqno">(1)<a class="headerlink" href="#equation-distribucion-acumulada-de-desintegraciones" title="Enlace permanente a esta ecuación">¶</a></span>\[F(t)=\operatorname{prob}(X \leq t)=\frac{N_{0}-\langle N(j)\rangle_{M}}{N_{0}}\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(\langle N(j)\rangle_{M}\)</span> el promedio de núcleos activos en el paso <cite>j</cite>, es decir:</p>
+<div class="math notranslate nohighlight" id="equation-calculo-iterativo-de-la-distribucion-de-desintegracion-acumulada">
+<span class="eqno">(2)<a class="headerlink" href="#equation-calculo-iterativo-de-la-distribucion-de-desintegracion-acumulada" title="Enlace permanente a esta ecuación">¶</a></span>\[\langle N(j)\rangle_{M}=\frac{1}{M} \sum_{z=1}^{N} N_{k}(j)\]</div>
+<p>Y comprararemos los resultados con la curva teórica:</p>
+<div class="math notranslate nohighlight" id="equation-distribucion-de-desintegracion-acumulada-teorica">
+<span class="eqno">(3)<a class="headerlink" href="#equation-distribucion-de-desintegracion-acumulada-teorica" title="Enlace permanente a esta ecuación">¶</a></span>\[F(t)=1-e^{-\lambda, t}\]</div>
+<p>En el código de este ejercicio se facilita la opción de realizar una simulación parametrizada mediante:</p>
+<blockquote>
+<div><dl>
+<dt>maxScenarios: int</dt><dd><p>Número de escenarios distintos que se analizarán.</p>
+</dd>
+<dt>maxTime: int</dt><dd><p>De cara a la representación gráfica de los resultados, se da la posibilidad de ampliar o reducir el límite de tiempo a representar en dichas gráficas, pudiéndose así focalizar en las zonas deseadas de la misma. Una vez introducido este parámetro, las entradas del archivo de datos generado se verán alteradas así como su correspondiente representación. (Aplica a todos los casos en conjunto)</p>
+</dd>
+<dt>N_0: int[]</dt><dd><p>Cantidad inicial de núcleos a desintegrar. (Por caso estudiado)</p>
+</dd>
+<dt>p_disintegration: float[]</dt><dd><p>Probabilidad de desintegración de cada núcleo en cada paso del proceso. (Por caso estudiado)</p>
+</dd>
+<dt>plottingStep: int[]</dt><dd><p>Paso a utilizar a la hora de exportar los datos. Cuando <cite>plottingStep &gt; 1</cite>, se representarán exclusivamente aquellos pasos de la desintegración múltiplos de <cite>plottingStep</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plottingStep</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-&gt;</span>  <span class="n">dataSimulated</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">dataRepresented</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span>
+</pre></div>
+</div>
+</dd>
+<dt>lambda_0: float[]</dt><dd><p>Parámetro característico del los núcleos a simular (Cobalto 60 : 0.13), que describe el comportamiento de dichos núcleos en función del tiempo. (Por caso estudiado)</p>
+</dd>
+<dt>M: int[]</dt><dd><p>Ciclos de repetición de la simulación para la ponderación de los resultados. (Por caso estudiado)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>En este caso, nos ceñiremos a la simulación de los casos planteados en la PEC, que constan de los siguientes datos:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Para cada una de las casuísticas planteadas, se realizará el siguiente proceso:</p>
+<p>Basándonos en la metodología del <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio2()</span></code>, realizaremos la simulación de desintegración completa del conjunto, pero esta vez repetiremos cada una de las simulaciones M veces, para posteriormente poder ponderar los datos como se especificaba previamente en la ecuación <a class="reference internal" href="#equation-calculo-iterativo-de-la-distribucion-de-desintegracion-acumulada">(2)</a>.</p>
+<p>Para ello, utilizaremos <a class="reference internal" href="PEC2Lib.html#c.simulateF_t" title="simulateF_t"><code class="xref c c-func docutils literal notranslate"><span class="pre">simulateF_t()</span></code></a>, donde almacenaremos los datos de desintegración <span class="math notranslate nohighlight">\(\langle N(j)\rangle_{M}\)</span> en un array temporal para posteriormente ponderar sus resultados utilizando la ecuación <a class="reference internal" href="#equation-calculo-iterativo-de-la-distribucion-de-desintegracion-acumulada">(2)</a> y almacenarlos en el array bidimensional <cite>F_t[][]</cite>, al mismo tiempo que generaremos los datos para el array bidimensional <cite>t[][]</cite> que ya mencionamos en el <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio2()</span></code>.</p>
+<p>En este caso, al tratarse de una simulación ponderada, la precisión de los datos será mucho mayor, por lo que no será necesario añadir todos los datos al archivo de datos de entrada para su representación. Es por esto que se utilizará el parámetro <cite>plottingStep</cite> para definir la resolución de dicha gráfica.</p>
+<p>Así mismo, esta función devolverá los tiempos de desintegración y semidesintegración del conjunto, esta vez ponderados, que podremos comparar posteriormente con los resultados teóricos del Cobalto60.</p>
+<p>Una vez obtenidos estos resultados, utilizaremos GNUPlot para graficar los datos obtenidos en los escenarios analizados así como la curva teórica que definirá el comportamiento de los mismos. En este caso, dada la similitud de los resultados de los casos a analizar en esta PEC, utilizaremos una gráfica para cada una de las simulaciones para facilitar su visualización. Por lo que serán los parámetros característicos de cada una de los datos simulados los que definan el comportamiento de la curva teórica, pudiendo obtener varias curvas teóricas diferentes en cada uno de los escenarios.</p>
+<p>Como podemos comprobar en las siguientes figuras, los datos obtenidos en la simulación se corresponden con la curva teórica y su precisión mejora a medida que incrementa el número de simulaciones (<cite>M</cite>), como ya mencionamos en el <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio2()</span></code>. Podemos por lo tanto concluir que el tiempo medio transcurrido entre desintegraciones seguirá una distribución similar a la distribución representada a continuación, solo que tratándose de tiempo en lugar de desintegraciones.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/ejercicio3_resultados_1.png" src="../_images/ejercicio3_resultados_1.png" />
+<p class="caption"><span class="caption-text">Distribución proporcional de desintegraciones acumuladas  <span class="math notranslate nohighlight">\(F(t)\)</span> del Cobalto60 para N = 1000 (M = 1).</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<div class="figure align-center" id="id2">
+<img alt="../_images/ejercicio3_resultados_2.png" src="../_images/ejercicio3_resultados_2.png" />
+<p class="caption"><span class="caption-text">Distribución proporcional de desintegraciones acumuladas <span class="math notranslate nohighlight">\(F(t)\)</span> del Cobalto60 para N = 1000 (M = 100).</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><span class="math notranslate nohighlight">\(F(t)\)</span> representa la distribución acumulada del número de desintegraciones, que describirán el comportamiento del tiempo transcurrido entre las mismas, pero no se trata de la distribución del tiempo como tal.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ejercicio4.html" class="btn btn-neutral float-right" title="Ejercicio 4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ejercicio2.html" class="btn btn-neutral float-left" title="Ejercicio 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ejercicio 2 &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Ejercicio 3" href="ejercicio3.html" />
+    <link rel="prev" title="Ejercicio 1" href="ejercicio1.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ejercicios.html">Ejercicios</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ejercicio1.html">Ejercicio 1</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ejercicio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio3.html">Ejercicio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio4.html">Ejercicio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEC2Lib.html">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ejercicios.html">Ejercicios</a> &raquo;</li>
+        
+      <li>Ejercicio 2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/ejercicio2.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ejercicio-2">
+<h1>Ejercicio 2<a class="headerlink" href="#ejercicio-2" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="c function">
+<dt>
+<code class="sig-name descname">int ejercicio2(const char [] outPath)</code></dt>
+<dd><dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>outPath: string</dt><dd><p>Directorio a utilizar para la salida de los archivos de datos de las diversas simulaciones. Comprobado y/o creado mediante <a class="reference internal" href="PEC2Lib.html#c.checkAndCreateDirectory" title="checkAndCreateDirectory"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkAndCreateDirectory()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Durante la ejecución del código del ejercicio 2, se procederá a la simulación de la desintegración completa de un conjunto de N_0 núcleos activos de Cobalto 60. Mediante esta simulación, podremos comprobar el comportamiento estadístico de la presencia de núcleos activos así como su relación con la ley de decaimiento exponencial.</p>
+<div class="math notranslate nohighlight" id="equation-ley-de-decaimiento-exponencial">
+<span class="eqno">(1)<a class="headerlink" href="#equation-ley-de-decaimiento-exponencial" title="Enlace permanente a esta ecuación">¶</a></span>\[N(t)=N_{0} e^{-\lambda t}\]</div>
+<p>En el código de este ejercicio se facilita la opción de realizar una simulación parametrizada mediante:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>maxScenarios: int</dt><dd><p>Número de escenarios distintos que se analizarán.</p>
+</dd>
+<dt>maxTime: int</dt><dd><p>De cara a la representación gráfica de los resultados, se da la posibilidad de ampliar o reducir el límite de tiempo a representar en dichas gráficas, pudiéndose así focalizar en las zonas deseadas de la misma. Una vez introducido este parámetro, las entradas del archivo de datos generado se verán alteradas así como su correspondiente representación. (Aplica a todos los casos en conjunto)</p>
+</dd>
+<dt>N_0: int[]</dt><dd><p>Cantidad inicial de núcleos a desintegrar. (Por caso estudiado)</p>
+</dd>
+<dt>p_disintegration: float[]</dt><dd><p>Probabilidad de desintegración de cada núcleo en cada paso del proceso. (Por caso estudiado)</p>
+</dd>
+<dt>lambda_0: float[]</dt><dd><p>Parámetro característico del los núcleos a simular (Cobalto 60 : 0.13), que describe el comportamiento de dichos núcleos en función del tiempo. (Por caso estudiado)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>En este caso, nos ceñiremos a la simulación de los casos planteados en la PEC, que constan de los siguientes datos:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">lambda_0</span> <span class="o">=</span> <span class="mf">0.13</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hemos de tener en cuenta que el código de este ejercicio está orientado a la comparación de distintas casuísticas equivalentes así como la curva teórica de las mismas. Es por esto que es necesario introducir unos valores acordes a esta curva, es decir, si los parámetros que definen la curva teórica (lambda_0) no son iguales para todas las representaciones, la gráfica generada no incluirá la curva teórica puesto que no habrá una única curva que defina el comportamiento de la simulación.</p>
+</div>
+<p>Para cada una de las casuísticas planteadas, se realizará el siguiente proceso:</p>
+<p>Seguiremos la metodología del <code class="xref c c-func docutils literal notranslate"><span class="pre">ejercicio1()</span></code> a la hora de simular las desintegraciones pero en este caso, utilizaremos <a class="reference internal" href="PEC2Lib.html#c.simulateFullDisintegration" title="simulateFullDisintegration"><code class="xref c c-func docutils literal notranslate"><span class="pre">simulateFullDisintegration()</span></code></a> para simular el proceso completo de desintegración, de modo que:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">0001000101</span> <span class="o">...</span> <span class="o">-&gt;</span> <span class="mi">1111111111</span>
+</pre></div>
+</div>
+<p>Esta función se encargará de simular la desintegración completa del conjunto, almacenando los datos de tiempo y núcleos activos en dos arrays bidimensionales, <code class="docutils literal notranslate"><span class="pre">t[][]</span></code> y <code class="docutils literal notranslate"><span class="pre">disintegrations[][]</span></code> respectivamente, para su posterior graficación.</p>
+<p>Así mismo, esta función devolverá los tiempos de desintegración y semidesintegración del conjunto, que podremos comparar posteriormente con los resultados teóricos del Cobalto60.</p>
+<p>Una vez obtenidos estos resultados, utilizaremos GNUPlot para graficar los datos obtenidos en los escenarios analizados así como la curva teórica que definirá el comportamiento de los mismos.</p>
+<p>Como podemos comprobar en la siguiente figura, los datos obtenidos en la simulación se corresponden con la curva teórica en gran medida, a excepción del primer caso, dado que al tratarse de un valor de dt tan elevado (del orden de 3 años por etapa de simulación), los resultados se vuelven poco fiables, pero a medida que elevamos el número de etapas y reducimos el valor de dt, la precisión así como la concordancia de dichos datos aumentan.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/ejercicio2_resultados_1.png" src="../_images/ejercicio2_resultados_1.png" />
+<p class="caption"><span class="caption-text">Comparación de simulaciones de desintegraciones completas de diversos conjuntos de tamaño N_0 = 10000 junto con su curva teórica.</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<p>Sin embargo, no podemos concluir lo mismo cuando se trata de la representación de los datos cuando t&gt;50 años. Cuando la desintegración se acerca al final, es decir, cuando el número de núcleos activos es muy bajo, la variación de los resultados es mucho mayor dado que el factor aleatorio es mucho más decisivo, por lo que, con un único muestreo, obtenemos resultados poco fiables como podemos comprobar en las siguientes figuras. Para mejorar estos resultados, sería necesario, igual que con el ejercicio 1, aumentar los ciclos de simulación y ponderar los resultados, de forma que, a lo largo de toda la simulación, la variación de núcleos activos en cada etapa tienda a cero.</p>
+<p>Este suceso ocurre a lo largo de todo el periodo de desintegración, pero es mucho menos notable dado que esta diferencia de núcleos activos es mucho menor en comparación con los núcleos activos. Es decir:</p>
+<div class="math notranslate nohighlight">
+\[N(t) &gt;&gt; \Delta N\]</div>
+<div class="figure align-center">
+<img alt="../_images/ejercicio2_resultados_2.png" src="../_images/ejercicio2_resultados_2.png" />
+</div>
+<div class="figure align-center" id="id2">
+<img alt="../_images/ejercicio2_resultados_2-1.png" src="../_images/ejercicio2_resultados_2-1.png" />
+<p class="caption"><span class="caption-text">Vista en detalle del proceso de desintegración del Cobalto60 para t&gt;50 años.</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ejercicio3.html" class="btn btn-neutral float-right" title="Ejercicio 3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ejercicio1.html" class="btn btn-neutral float-left" title="Ejercicio 1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ejercicios &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Ejercicio 1" href="ejercicio1.html" />
+    <link rel="prev" title="PEC2 - C: Procesos de Poisson y desintegración radiactiva" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ejercicios</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio1.html">Ejercicio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio2.html">Ejercicio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio3.html">Ejercicio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio4.html">Ejercicio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEC2Lib.html">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Ejercicios</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/ejercicios.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ejercicios">
+<h1>Ejercicios<a class="headerlink" href="#ejercicios" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>A continuación se describe el desarrollo de cada uno de los ejercicios propuestos en la PEC.</p>
+<div class="admonition attention">
+<p class="admonition-title">Atención</p>
+<p>A lo largo de todo el proceso de simulación así como en su documentación, se utilizará una metodología diferente a la planteada en el enunciado de la prueba. Se considerarán activos los núcleos que figuren como 0 e inactivos aquellos que figuren como 1. Esto se debe a una simplificación en el código debido a la estructura interna del comando <cite>calloc</cite>, encargado de declarar e inicializar los arrays dinámicos que se utilizarán para el proceso de simulación. Este comando, define un array dinámico de N posiciones e inicializa cada una de las posiciones del mismo a cero, evitando así tener que crear un bucle de inicialización para cada una de las posiciones de este (Lo mismo sucede con los arrays bidimensionales). Dada esta posibilidad de simplificación y el hecho de que, como tal, esta modificación no alterará los resultados finales dado que solo se aplicará a etapas intermedias del desarrollo, se toma la decisión de seguir adelante con la misma.</p>
+</div>
+<p>Para la ejecución del código de los diversos ejercicios, será suficiente con ejecutar el archivo <cite>main.exe</cite> de la carpeta <cite>src/buid</cite>.</p>
+<p>El programa está planteado de forma que se puedan ejecutar cada una de las simulaciones planteadas de forma rápida y sencilla, por lo que será suficiente con presionar <cite>Enter</cite> en la toma de datos para utilizar los parámetros por defecto exceptuando el bucle inicial en el que habrá que seleccionar por consola el ejercicio que querremos simular.</p>
+<div class="admonition attention">
+<p class="admonition-title">Atención</p>
+<p>La ejecución de este programa está pensada para poder simular los casos planteados en el enunciado de la PEC así como multitud de casos similares que se rijan por los mismos parámetros que estos. No obstante, dicha ejecución solo está testeada con los casos planteados originalmente, por lo que no se podrá garantizar el correcto funcionamiento ante cualquier casuística planteada.</p>
+</div>
+<p>Si se deseara compilar de nuevo el código completo, se deberá utilizar el siguiente comando desde el directorio <cite>src</cite> donde podremos encontrar el código fuente.:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gcc</span> <span class="o">-</span><span class="n">std</span><span class="o">=</span><span class="n">c99</span> <span class="o">-</span><span class="n">o</span> <span class="n">build</span><span class="o">/</span><span class="n">main</span> <span class="n">main</span><span class="o">.</span><span class="n">c</span> <span class="n">PEC2Lib</span><span class="o">.</span><span class="n">c</span> <span class="n">PEC2Lib</span><span class="o">.</span><span class="n">h</span> <span class="n">ejercicio1</span><span class="o">.</span><span class="n">c</span> <span class="n">ejercicio1</span><span class="o">.</span><span class="n">h</span> <span class="n">ejercicio2</span><span class="o">.</span><span class="n">c</span> <span class="n">ejercicio2</span><span class="o">.</span><span class="n">h</span> <span class="n">ejercicio3</span><span class="o">.</span><span class="n">c</span> <span class="n">ejercicio3</span><span class="o">.</span><span class="n">h</span> <span class="n">ejercicio4</span><span class="o">.</span><span class="n">c</span> <span class="n">ejercicio4</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Ejercicios:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ejercicio1.html">Ejercicio 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ejercicio2.html">Ejercicio 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ejercicio3.html">Ejercicio 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ejercicio4.html">Ejercicio 4</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ejercicio1.html" class="btn btn-neutral float-right" title="Ejercicio 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="PEC2 - C: Procesos de Poisson y desintegración radiactiva" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

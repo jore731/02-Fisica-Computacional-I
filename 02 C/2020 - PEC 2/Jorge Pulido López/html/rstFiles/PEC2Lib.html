@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PEC2Lib &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="prev" title="Ejercicio 4" href="ejercicio4.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ejercicios.html">Ejercicios</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>PEC2Lib</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/PEC2Lib.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pec2lib">
+<h1>PEC2Lib<a class="headerlink" href="#pec2lib" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Se exponen a continuación el conjunto de funciones utilizadas para el desarrollo completo del código utilizado en el desarrollo de la PEC.</p>
+<dl class="c function">
+<dt id="c.randomProbability">
+float <code class="sig-name descname">randomProbability</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.randomProbability" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Genera un número comprendido aleatorio comprendido entre 0 y 1</p>
+<p>En este caso debería ser suficiente con utilizar la función propia de C <cite>rand()</cite> con un seed generado cada vez que se ejecuta cada uno de los ejercicios para evitar que los resultados sean iguales en varias ejecuciones, pero podría ser interesante utilizar algún algorimo como el método de Montecarlo para cumplir esta función.</p>
+<dl class="simple">
+<dt>float</dt><dd><p>Número aleatorio comprendido entre 0 y 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.rangosArrayUnidimensional_float">
+void <code class="sig-name descname">rangosArrayUnidimensional_float</code><span class="sig-paren">(</span>float *<em>array</em>, int <em>columnas</em>, float *<em>rangeX</em>, float *<em>rangeY</em>, int <em>accumulated</em>, float <em>step</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rangosArrayUnidimensional_float" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Calcula los límites de una lista de datos (float) para x max, Y min e Y max. X min se considerará 0 dado que los procesos de desintegración siempre empezarán en <cite>t = 0</cite>.</p>
+<dl>
+<dt>array: (float *)</dt><dd><p>Puntero del tipo float que indica la memoria inicial del array a evaluar.</p>
+</dd>
+<dt>columnas: int</dt><dd><p>Longitud del array a evaluar.</p>
+</dd>
+<dt>rangeX: (float *)</dt><dd><p>Puntero del tipo float que indica la memoria inicial del array que alberga los datos del rango del eje X. Permite utilizar los datos resultantes de esta función fuera de la misma.</p>
+</dd>
+<dt>rangeY: (float *)</dt><dd><p>Puntero del tipo float que indica la memoria inicial del array que alberga los datos del rango del eje Y. Permite utilizar los datos resultantes de esta función fuera de la misma.</p>
+</dd>
+<dt>accumulated: int</dt><dd><p>Define el modo de calcular los resultados a la hora de considerar los rangos X e Y, de forma que, en caso de tener varias gráficas conjuntas, nos permitirá calcular los máximos absolutos de todas las funciones:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accumulated</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="n">Xmin_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Ymin_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Xmax_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Ymax_0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accumulated</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">Xmin_0</span> <span class="o">=</span> <span class="n">rangeXmin</span><span class="p">,</span> <span class="n">Ymin_0</span> <span class="o">=</span> <span class="n">rangeYmin</span><span class="p">,</span> <span class="n">Xmax_0</span> <span class="o">=</span> <span class="n">rangeXmax</span><span class="p">,</span> <span class="n">Ymax_0</span> <span class="o">=</span> <span class="n">rangeYmax</span>
+</pre></div>
+</div>
+</dd>
+<dt>step: float</dt><dd><p>Duración de cada etapa de la desintegración (en años) que permite obtener el valor máximo de <cite>t</cite> aun trabajando con datos de etapa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.rangosArrayUnidimensional_int">
+void <code class="sig-name descname">rangosArrayUnidimensional_int</code><span class="sig-paren">(</span>int *<em>array</em>, int <em>columnas</em>, float *<em>rangeX</em>, float *<em>rangeY</em>, int <em>accumulated</em>, float <em>step</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rangosArrayUnidimensional_int" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Calcula los límites de una lista de datos (int) para x max, Y min e Y max. X min se considerará 0 dado que los procesos de desintegración siempre empezarán en <cite>t = 0</cite>.</p>
+<dl>
+<dt>array: (int *)</dt><dd><p>Puntero del tipo int que indica la memoria inicial del array a evaluar.</p>
+</dd>
+<dt>columnas: int</dt><dd><p>Longitud del array a evaluar.</p>
+</dd>
+<dt>rangeX: (float *)</dt><dd><p>Puntero del tipo float que indica la memoria inicial del array que alberga los datos del rango del eje X. Permite utilizar los datos resultantes de esta función fuera de la misma.</p>
+</dd>
+<dt>rangeY: (float *)</dt><dd><p>Puntero del tipo float que indica la memoria inicial del array que alberga los datos del rango del eje Y. Permite utilizar los datos resultantes de esta función fuera de la misma.</p>
+</dd>
+<dt>accumulated: int</dt><dd><p>Define el modo de calcular los resultados a la hora de considerar los rangos X e Y, de forma que, en caso de tener varias gráficas conjuntas, nos permitirá calcular los máximos absolutos de todas las funciones:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accumulated</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="n">Xmin_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Ymin_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Xmax_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Ymax_0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accumulated</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">Xmin_0</span> <span class="o">=</span> <span class="n">rangeXmin</span><span class="p">,</span> <span class="n">Ymin_0</span> <span class="o">=</span> <span class="n">rangeYmin</span><span class="p">,</span> <span class="n">Xmax_0</span> <span class="o">=</span> <span class="n">rangeXmax</span><span class="p">,</span> <span class="n">Ymax_0</span> <span class="o">=</span> <span class="n">rangeYmax</span>
+</pre></div>
+</div>
+</dd>
+<dt>step: float</dt><dd><p>Duración de cada etapa de la desintegración (en años) que permite obtener el valor máximo de <cite>t</cite> aun trabajando con datos de etapa.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.simularDesintegracion">
+int <code class="sig-name descname">simularDesintegracion</code><span class="sig-paren">(</span>int *<em>arrayIn</em>, int *<em>arrayOut</em>, int <em>length</em>, float <em>p</em>, float *<em>t</em>, float <em>dt</em><span class="sig-paren">)</span><a class="headerlink" href="#c.simularDesintegracion" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Toma un array de entrada de longitud <cite>length</cite> y evalúa cada una de sus posiciones, de forma que, si es cero, genera un número aleatorio y lo compara con la probabilidad umbral <cite>p</cite>, si el valor generado es menor que el umbral, se producirá una desintegración, es decir la posición analizada pasará de estado 0 a estado 1.
+Evalua de esta forma todas las posiciones del array y actualiza el estado de cada una de las posiciones del array de salida <cite>arrayOut</cite>, de forma que para todo <cite>arrayIn[i]</cite>, genera un estado de salida y lo guarda en <cite>arrayOut[i]</cite>.</p>
+<dl class="simple">
+<dt>ArrayIn: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array a evaluar.</p>
+</dd>
+<dt>ArrayOut: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de salida.</p>
+</dd>
+<dt>length: int</dt><dd><p>Número de posiciones a evaluar del array de entrada y, por lo tanto, número de posiciones a actualizar del array de salida.</p>
+</dd>
+<dt>p: float</dt><dd><p>Valor umbral de desintegración. Si el valor aleatorio está por debajo de dicho umbral, el núcleo evaluado se desintegra.</p>
+</dd>
+<dt>t: (float *)</dt><dd><p>Puntero a la dirección de memoria que contiene el valor de tiempo al inicio de la simulación. Su valor se actualiza al final de la misma en función de <cite>step</cite>.</p>
+</dd>
+<dt>step: float</dt><dd><p>Tiempo (en años) que dura la etapa de simulación. Se utiliza para actualizar el valor de <cite>t</cite> cuando esta concluya.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.simulateFirstStepDisintegrationsMTimes">
+void <code class="sig-name descname">simulateFirstStepDisintegrationsMTimes</code><span class="sig-paren">(</span>int *<em>arrayIn</em>, int *<em>arrayOut</em>, int <em>length</em>, float <em>p</em>, int *<em>histogram</em>, int <em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#c.simulateFirstStepDisintegrationsMTimes" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Ejecuta <cite>simularDesintegracion()</cite> <cite>M</cite> veces y devuelve el histograma de desintegraciones.</p>
+<dl class="simple">
+<dt>ArrayIn: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array a evaluar.</p>
+</dd>
+<dt>ArrayOut: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de salida.</p>
+</dd>
+<dt>length: int</dt><dd><p>Número de posiciones a evaluar del array de entrada y, por lo tanto, número de posiciones a actualizar del array de salida.</p>
+</dd>
+<dt>p: float</dt><dd><p>Valor umbral de desintegración. Si el valor aleatorio está por debajo de dicho umbral, el núcleo evaluado se desintegra.</p>
+</dd>
+<dt>histogram: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de salida del histograma, que contendrá el número de veces que el resultado de la simulación ha coincidido con la posición del array en la que se encuentre dicho valor. Es decir, el valor de <cite>histograma[0]</cite> recogerá el número de veces que e resultado de la simulación ha sido de cero desintegraciones.</p>
+</dd>
+<dt>M: int</dt><dd><p>Número de ciclos de simulación a ejecutar. Deberá coincidir con el resultado de la suma de todos los valores contenidos en el array <cite>histogram</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.simulateFullDisintegration">
+void <code class="sig-name descname">simulateFullDisintegration</code><span class="sig-paren">(</span>int *<em>arrayIn</em>, int *<em>arrayOut</em>, int <em>length</em>, float <em>p</em>, int *<em>disintegrations</em>, float *<em>t</em>, float <em>dt</em>, int <em>steps</em>, float *<em>disintegrationTime</em>, float *<em>accumulated</em>, int <em>accumulate</em><span class="sig-paren">)</span><a class="headerlink" href="#c.simulateFullDisintegration" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Simula el proceso de desintegración completo de un conjunto de núcleos hasta que todos ellos figuran como desintegrados, almacenando los datos para generar un array de núcleos activos <cite>disintegrations[]</cite> que contendrá el número de nucleos activos al comienzo de cada etapa, así como los datos de tiempo de cada una de ellas en el array <cite>t[]</cite>.</p>
+<dl class="simple">
+<dt>ArrayIn: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array a evaluar.</p>
+</dd>
+<dt>ArrayOut: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de salida.</p>
+</dd>
+<dt>length: int</dt><dd><p>Número de posiciones a evaluar del array de entrada y, por lo tanto, número de posiciones a actualizar del array de salida.</p>
+</dd>
+<dt>p: float</dt><dd><p>Valor umbral de desintegración. Si el valor aleatorio está por debajo de dicho umbral, el núcleo evaluado se desintegra.</p>
+</dd>
+<dt>disintegrations: (int *)</dt><dd><p>Puntero a la dirección inicial del array que se irá recorriendo y actualizando con los datos de los núcleos activos al comienzo de cada etapa de la desintegración.</p>
+</dd>
+<dt>t: (float *)</dt><dd><p>Puntero a la dirección de memoria que contiene el valor de tiempo al inicio de la simulación. Su valor se actualiza al final de la misma en función de <cite>step</cite>.</p>
+</dd>
+<dt>dt: float</dt><dd><p>Tiempo (en años) que dura la etapa de simulación. Se utiliza para actualizar el valor de <cite>t</cite> cuando esta concluya.</p>
+</dd>
+<dt>steps: int</dt><dd><p>Número máximo de estados que se almacenarán para su posterior exportación o manipulación (Dimensión de los arrays <cite>disintegrations</cite> y <cite>t</cite>).</p>
+</dd>
+<dt>disintegrationTime: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de dos posiciones en el que se actualizarán los datos de tiempo de semidesintegración y tiempo de desintegración del conjunto (respectivamente).</p>
+</dd>
+<dt>accumulated: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array que contendrá los datos acumulados de los valores del array disintegrations en caso de que <cite>accumulate</cite> lo indicara. Permite así calcular ponderaciones sin necesidad de aumentar en gran medida el número de ciclos de procesamiento.</p>
+</dd>
+<dt>accumulate: int</dt><dd><p>Indica si los valores deseados son instanciales(0) o acumulativos(1).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.arrayIterationalDivider">
+void <code class="sig-name descname">arrayIterationalDivider</code><span class="sig-paren">(</span>int *<em>arrayIn</em>, float *<em>arrayOut</em>, int <em>divider</em>, int <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.arrayIterationalDivider" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Mediante un proceso iterativo, divide todas las posiciones de un array de entrada entre una constante, para generar un array de salida. Se utilizará para la ponderación de resultados.</p>
+<dl class="simple">
+<dt>ArrayIn: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array a evaluar.</p>
+</dd>
+<dt>ArrayOut: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de salida.</p>
+</dd>
+<dt>divider: int</dt><dd><p>Divisor de la operación.</p>
+</dd>
+<dt>length: int</dt><dd><p>Número de posiciones a evaluar del array de entrada y, por lo tanto, número de posiciones a actualizar del array de salida.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.checkAndCreateDirectory">
+int <code class="sig-name descname">checkAndCreateDirectory</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>directory</em><span class="sig-paren">)</span><a class="headerlink" href="#c.checkAndCreateDirectory" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Verifica la existencia de un directorio y, en caso de no existir, trata de crearlo (hasta un máximo de 1 nivel).
+En caso de no poder crearlo, entra en un bucle de comprobaciones de la existencia de este (para su creación manual), evitando así continuar la ejecución del programa y posibilitar la pérdida de datos.</p>
+<dl class="simple">
+<dt>directory (char *)</dt><dd><p>Puntero a la dirección de memoria inicial de la cadena de caracteres que contiene la ruta a analizar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.print_array_2d_to_file_float_int">
+void <code class="sig-name descname">print_array_2d_to_file_float_int</code><span class="sig-paren">(</span>char *<em>nombre</em>, float *<em>col1</em>, int *<em>col2</em>, int <em>columnas</em><span class="sig-paren">)</span><a class="headerlink" href="#c.print_array_2d_to_file_float_int" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Exporta los datos de dos arrays unidimensionales de tipos <cite>float</cite> y <cite>int</cite> a un archivo.</p>
+<dl class="simple">
+<dt>nombre: (char *)</dt><dd><p>Puntero a la dirección de memoria inicial de la cadena de caracteres que contiene la ruta completa al archivo de salida de datos.</p>
+</dd>
+<dt>col1: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de datos que formará la columna 1 del array bidimensional de salida.</p>
+</dd>
+<dt>col1: (int *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de datos que formará la columna 2 del array bidimensional de salida.</p>
+</dd>
+<dt>columnas: int</dt><dd><p>Número de posiciones a exportar de cada uno de los arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.print_array_2d_to_file_float_float">
+void <code class="sig-name descname">print_array_2d_to_file_float_float</code><span class="sig-paren">(</span>char *<em>nombre</em>, float *<em>col1</em>, float *<em>col2</em>, int <em>columnas</em>, int <em>skippingStep</em><span class="sig-paren">)</span><a class="headerlink" href="#c.print_array_2d_to_file_float_float" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Exporta los datos de dos arrays unidimensionales de tipos <cite>float</cite> a un archivo.</p>
+<dl class="simple">
+<dt>nombre: (char *)</dt><dd><p>Puntero a la dirección de memoria inicial de la cadena de caracteres que contiene la ruta completa al archivo de salida de datos.</p>
+</dd>
+<dt>col1: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de datos que formará la columna 1 del array bidimensional de salida.</p>
+</dd>
+<dt>col1: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de datos que formará la columna 2 del array bidimensional de salida.</p>
+</dd>
+<dt>columnas: int</dt><dd><p>Número de posiciones a exportar de cada uno de los arrays.</p>
+</dd>
+<dt>skippingStep: int</dt><dd><p>Paso de exportado. Solo se exportarán aquellos datos cuya posición en el array sea múltiplo de skippingStep. Por defecto un skippingStep de 1 exportará todos los datos del array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.print_array_1d_to_file_float">
+void <code class="sig-name descname">print_array_1d_to_file_float</code><span class="sig-paren">(</span>char *<em>nombre</em>, float *<em>array</em>, int <em>columnas</em><span class="sig-paren">)</span><a class="headerlink" href="#c.print_array_1d_to_file_float" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Exporta los datos de un array unidimensional de tipo <cite>float</cite> a un archivo.</p>
+<dl class="simple">
+<dt>nombre: (char *)</dt><dd><p>Puntero a la dirección de memoria inicial de la cadena de caracteres que contiene la ruta completa al archivo de salida de datos.</p>
+</dd>
+<dt>col1: (float *)</dt><dd><p>Puntero a la dirección de memoria inicial del array de datos a exportar.</p>
+</dd>
+<dt>columnas: int</dt><dd><p>Número de posiciones a exportar de cada uno de los arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt>
+<code class="sig-name descname">float inputParameter(char [] name, int iterator, float defaultValue)</code></dt>
+<dd><p>Solicita un parámetro configurable por consola y, le asigna el valor proporcionado por el usuario o, en caso de no proporcionarse nignuno, el valor establecido por defecto.</p>
+<dl class="simple">
+<dt>name: char[]</dt><dd><p>Nombre del parámetro solicitado para ser mostrado por pantalla.</p>
+</dd>
+<dt>iterator: int</dt><dd><p>Si el valor será asignado mediante un bucle, utiliza el valor del iterador introducido para especificar a que campo del array se introducirá dicho valor.</p>
+</dd>
+<dt>defaultValue: float</dt><dd><p>Valor por defecto que se asignará si el usuario no introduce ningún valor y pulsa <cite>enter</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.simulateF_t">
+void <code class="sig-name descname">simulateF_t</code><span class="sig-paren">(</span>float *<em>F_t</em>, float *<em>t</em>, int <em>length</em>, float <em>p</em>, float <em>dt</em>, int <em>steps</em>, int <em>M</em>, float *<em>disintegrationTimes</em><span class="sig-paren">)</span><a class="headerlink" href="#c.simulateF_t" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Ejecuta el bucle de simulación y calcula los valores que serán asignados a F_t:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">F(t) calculation loop</span><a class="headerlink" href="#id1" title="Enlace permanente a este código fuente">¶</a></div>
+<div class="highlight-C notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="kt">long</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">temp</span> <span class="o">+=</span> <span class="n">disintegrations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+        <span class="p">}</span>
+<span class="hll">        <span class="n">F_t</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">((</span><span class="kt">float</span><span class="p">)</span><span class="n">length</span> <span class="o">-</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">temp</span> <span class="o">/</span> <span class="n">M</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">length</span><span class="p">;</span>
+</span>    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>Así como la ponderación de los valores obtenidos de los tiempos de desintegración y semidesintegración.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt id="c.checkMarkov">
+void <code class="sig-name descname">checkMarkov</code><span class="sig-paren">(</span>float *<em>markov</em>, float *<em>t</em>, int <em>length</em>, float <em>p</em>, float <em>dt</em>, int <em>steps</em>, int <em>M</em>, int <em>l</em>, float *<em>disintegrationTimes</em><span class="sig-paren">)</span><a class="headerlink" href="#c.checkMarkov" title="Enlazar permanentemente con esta definición">¶</a><br /></dt>
+<dd><p>Ejecuta el bucle de simulación y calcula las probabilidades de desintegración que serán asignadas al array unidimensional <cite>markov</cite>:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">F(t) calculation loop</span><a class="headerlink" href="#id2" title="Enlace permanente a este código fuente">¶</a></div>
+<div class="highlight-C notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">steps</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="n">markov</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">accumulated</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">l</span><span class="p">]</span> <span class="o">/</span> <span class="n">accumulated</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+</span>    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>Así como la ponderación de los valores obtenidos de los tiempos de desintegración y semidesintegración.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="ejercicio4.html" class="btn btn-neutral float-left" title="Ejercicio 4" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

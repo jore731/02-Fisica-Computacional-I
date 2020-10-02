@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ejercicio 1 &mdash; documentación de PEC2 - C: Procesos de Poisson y desintegración radiactiva - </title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Ejercicio 2" href="ejercicio2.html" />
+    <link rel="prev" title="Ejercicios" href="ejercicios.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PEC2 - C: Procesos de Poisson y desintegración radiactiva
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contenidos</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ejercicios.html">Ejercicios</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ejercicio 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio2.html">Ejercicio 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio3.html">Ejercicio 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ejercicio4.html">Ejercicio 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEC2Lib.html">PEC2Lib</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PEC2 - C: Procesos de Poisson y desintegración radiactiva</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ejercicios.html">Ejercicios</a> &raquo;</li>
+        
+      <li>Ejercicio 1</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rstFiles/ejercicio1.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ejercicio-1">
+<h1>Ejercicio 1<a class="headerlink" href="#ejercicio-1" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="c function">
+<dt>
+<code class="sig-name descname">int ejercicio1(const char [] outPath)</code></dt>
+<dd><dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>outPath: string</dt><dd><p>Directorio a utilizar para la salida de los archivos de datos de las diversas simulaciones. Comprobado y/o creado mediante <a class="reference internal" href="PEC2Lib.html#c.checkAndCreateDirectory" title="checkAndCreateDirectory"><code class="xref c c-func docutils literal notranslate"><span class="pre">checkAndCreateDirectory()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Durante la ejecución del código del ejercicio 1, se procederá a la simulación de la desintegración de un conjunto de N_0 núcleos activos de Cobalto 60. Mediante esta simulación, podremos comprobar que la probabilidad de desintegración de estos núcleos viene definida por una distribución de Poisson.</p>
+<p>En el código de este ejercicio se facilita la opción de realizar una simulación parametrizada mediante:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>maxScenarios: int</dt><dd><p>Número de escenarios distintos que se analizarán.</p>
+</dd>
+<dt>N_0: int[]</dt><dd><p>Cantidad inicial de núcleos a desintegrar. (Por caso estudiado)</p>
+</dd>
+<dt>p_disintegration: float[]</dt><dd><p>Probabilidad de desintegración de cada núcleo en cada paso del proceso. (Por caso estudiado)</p>
+</dd>
+<dt>M: int[]</dt><dd><p>Ciclos de repetición de la simulación para la ponderación de los resultados. (Por caso estudiado)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>En este caso, nos ceñiremos a la simulación de los casos planteados en la PEC, que constan de los siguientes datos:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mf">1.000</span><span class="o">.</span><span class="mi">000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mf">1.000</span><span class="o">.</span><span class="mi">000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mf">1.000</span><span class="o">.</span><span class="mi">000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">N_0</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">p_disintegration</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mf">1.000</span><span class="o">.</span><span class="mi">000</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Hemos de tener en cuenta que el código de este ejercicio está orientado a la comparación de distintas casuísticas equivalentes así como la curva teórica de las mismas. Es por esto que es necesario introducir unos valores acordes a esta curva, es decir, el producto N_0*p de todos los casos a analizar deberá ser igual, de lo contrario, no sería posible representar la curva teórica.</p>
+</div>
+<p>Para cada una de las casuísticas planteadas, se realizará el siguiente proceso:</p>
+<p>Mediante la randomización computacional, se tomará un array unidimensional de tamaño <code class="docutils literal notranslate"><span class="pre">N_0</span></code> con valores inicializados a 0, y se recorrerán sus posiciones una a una, generándose un número aleatorio <code class="docutils literal notranslate"><span class="pre">rnd</span></code> entre 0 y 1, y se comparará con el valor <code class="docutils literal notranslate"><span class="pre">p_disintegration</span></code> que marcará el umbral de desintegración, de modo que si <code class="docutils literal notranslate"><span class="pre">rnd</span> <span class="pre">&gt;</span> <span class="pre">p_disintegration</span></code>, el núcleo pasará de estado 0 a estado 1:</p>
+<p>Si analizamos por ejemplo una única simulación para N_0 = 10 y p = 0.4, esperaremos obtener resultados similares a los siguientes.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">0010010011</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1000101010</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1111000000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1001001001</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para facilitar este proceso, utilizaremos la función <a class="reference internal" href="PEC2Lib.html#c.simularDesintegracion" title="simularDesintegracion"><code class="xref c c-func docutils literal notranslate"><span class="pre">simularDesintegracion()</span></code></a></p>
+</div>
+<p>Pero dado que la simulación de una única etapa tiene una gran carga de aleatoriedad, podrían darse casos en los que, el número de desintegraciones no concuerde con la probabilidad de desintegración de dicha casuística:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1010010010</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">0010101001</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1110110100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">0000000000</span> <span class="o">-&gt;</span> <span class="mi">1001010100</span>
+</pre></div>
+</div>
+<p>Es por esto que, para poder observar el comportamiento de dichas desintegraciones, necesitaremos analizar un mayor número de sucesos. Para ello, utilizaremos la función <a class="reference internal" href="PEC2Lib.html#c.simulateFirstStepDisintegrationsMTimes" title="simulateFirstStepDisintegrationsMTimes"><code class="xref c c-func docutils literal notranslate"><span class="pre">simulateFirstStepDisintegrationsMTimes()</span></code></a>, la cual automatizará la simulación de M desintegraciones de conjuntos, inicialmente iguales, de N_0 núcleos con probabilidades de desintegración iguales, guardando dichos resultados en un array bidimensional de <cite>i</cite> filas correspondientes al número de escenarios a analizar (por defecto 4), y <cite>j</cite> columnas, correspondiendo al número inicial de núcleos, y que contendrá un valor entero en cada una de las posiciones que nos indicará el número casos en los que se han producido <cite>j</cite> desintegraciones durante la simulación del escenario <cite>i</cite>. Produciendo un histograma absoluto del tipo:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">0003010000</span>
+</pre></div>
+</div>
+<p>Que se correspondría con los ejemplos de simulación del bloque anterior.</p>
+<p>Para poder asemejar dicho histograma a una distribución de Poisson, necesitaremos transformar estos datos a probabilidades entre 0 y 1, para así poder compararlos con la curva teórica:</p>
+<div class="math notranslate nohighlight" id="equation-distribucion-de-probabilidad-de-poisson">
+<span class="eqno">(1)<a class="headerlink" href="#equation-distribucion-de-probabilidad-de-poisson" title="Enlace permanente a esta ecuación">¶</a></span>\[f(x)=\frac{\lambda^{x}}{x !} e^{-\lambda}\]</div>
+<p>Para ello, utilizaremos <a class="reference internal" href="PEC2Lib.html#c.arrayIterationalDivider" title="arrayIterationalDivider"><code class="xref c c-func docutils literal notranslate"><span class="pre">arrayIterationalDivider()</span></code></a> que nos convertirá los datos acumulados en datos ponderados con respecto al número de simulaciones M.</p>
+<p>Una vez obtenido el array del histograma ponderado, utilizaremos GNUPlot para graficar los datos obtenidos en los escenarios analizados así como la curva teórica que definirá el comportamiento de los mismos.</p>
+<p>Como podemos comprobar en la siguiente figura, los datos obtenidos en la simulación se corresponden con la curva teórica en gran medida, a excepción del primer caso, dado que al tratarse de un valor de M tan bajo los resultados se vuelven poco fiables debido a la alta carga de aleatoriedad mencionada previamente, pero a medida que elevamos el número de simulaciones, la precisión así como la concordancia de dichos datos aumentan.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/ejercicio1_resultados.png" src="../_images/ejercicio1_resultados.png" />
+<p class="caption"><span class="caption-text">Comprobación del comportamiento de los núcleos de Cobalto 60 regido por una distribución de Poisson con lambda = 10.</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ejercicio2.html" class="btn btn-neutral float-right" title="Ejercicio 2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ejercicios.html" class="btn btn-neutral float-left" title="Ejercicios" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jorge Pulido López
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>
